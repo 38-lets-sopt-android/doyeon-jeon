@@ -42,13 +42,13 @@ class RegisterActivity : ComponentActivity() {
             val passwordState = rememberTextFieldState()
             val passwordCheckState = rememberTextFieldState()
 
-            val registerBtnEnabled = emailState.text.isNotBlank()
+            val registerEnabled = emailState.text.isNotBlank()
                     && passwordState.text.isNotBlank()
                     && passwordCheckState.text.isNotBlank()
 
             val context = LocalContext.current
 
-            fun onRegisterBtnClick() {
+            fun onRegisterClick() {
                 when {
                     !Patterns.EMAIL_ADDRESS.matcher(emailState.text).matches() -> {
                         Toast.makeText(context, "올바른 이메일 형식을 입력해주세요", Toast.LENGTH_SHORT).show()
@@ -77,8 +77,8 @@ class RegisterActivity : ComponentActivity() {
                         emailState = emailState,
                         passwordState = passwordState,
                         passwordCheckState = passwordCheckState,
-                        onRegisterBtnClick = { onRegisterBtnClick() },
-                        registerBtnEnabled = registerBtnEnabled,
+                        onRegisterClick = { onRegisterClick() },
+                        registerEnabled = registerEnabled,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -92,8 +92,8 @@ fun RegisterScreen(
     emailState: TextFieldState,
     passwordState: TextFieldState,
     passwordCheckState: TextFieldState,
-    onRegisterBtnClick: () -> Unit,
-    registerBtnEnabled: Boolean,
+    onRegisterClick: () -> Unit,
+    registerEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -168,8 +168,8 @@ fun RegisterScreen(
 
         ButtonPrimary(
             text = "회원가입",
-            onClick = onRegisterBtnClick,
-            enabled = registerBtnEnabled,
+            onClick = onRegisterClick,
+            enabled = registerEnabled,
         )
 
         Spacer(Modifier.height(26.dp))
@@ -184,8 +184,8 @@ private fun RegisterScreenPreview() {
             emailState = rememberTextFieldState(),
             passwordState = rememberTextFieldState(),
             passwordCheckState = rememberTextFieldState(),
-            onRegisterBtnClick = {},
-            registerBtnEnabled = true,
+            onRegisterClick = {},
+            registerEnabled = true,
         )
     }
 }

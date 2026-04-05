@@ -63,16 +63,16 @@ class LoginActivity : ComponentActivity() {
             val emailState = rememberTextFieldState()
             val passwordState = rememberTextFieldState()
 
-            val loginBtnEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
+            val loginEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
 
             val context = LocalContext.current
 
-            fun onRegisterBtnClick() {
+            fun onRegisterClick() {
                 val intent = Intent(context, RegisterActivity::class.java)
                 registerLauncher.launch(intent)
             }
 
-            fun onLoginBtnClick() {
+            fun onLoginClick() {
                 if (emailState.text.toString() == resultEmail && passwordState.text.toString() == resultPassword) {
                     Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
 
@@ -88,9 +88,9 @@ class LoginActivity : ComponentActivity() {
                     LoginScreen(
                         emailState = emailState,
                         passwordState = passwordState,
-                        onRegisterBtnClick = { onRegisterBtnClick() },
-                        onLoginBtnClick = { onLoginBtnClick() },
-                        loginBtnEnabled = loginBtnEnabled,
+                        onRegisterClick = { onRegisterClick() },
+                        onLoginClick = { onLoginClick() },
+                        loginEnabled = loginEnabled,
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
@@ -103,9 +103,9 @@ class LoginActivity : ComponentActivity() {
 fun LoginScreen(
     emailState: TextFieldState,
     passwordState: TextFieldState,
-    onRegisterBtnClick: () -> Unit,
-    onLoginBtnClick: () -> Unit,
-    loginBtnEnabled: Boolean,
+    onRegisterClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    loginEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -168,7 +168,7 @@ fun LoginScreen(
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
-                    onClick = onRegisterBtnClick,
+                    onClick = onRegisterClick,
                 )
                 .padding(vertical = 20.dp),
             color = LETSSOPTTheme.colors.textSecondary,
@@ -177,8 +177,8 @@ fun LoginScreen(
 
         ButtonPrimary(
             text = "로그인",
-            onClick = onLoginBtnClick,
-            enabled = loginBtnEnabled,
+            onClick = onLoginClick,
+            enabled = loginEnabled,
         )
 
         Spacer(Modifier.height(26.dp))
@@ -192,9 +192,9 @@ private fun LoginScreenPreview() {
         LoginScreen(
             emailState = rememberTextFieldState(),
             passwordState = rememberTextFieldState(),
-            onRegisterBtnClick = {},
-            onLoginBtnClick = {},
-            loginBtnEnabled = true,
+            onRegisterClick = {},
+            onLoginClick = {},
+            loginEnabled = true,
         )
     }
 }
