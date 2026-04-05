@@ -75,6 +75,9 @@ class LoginActivity : ComponentActivity() {
             fun onLoginBtnClick() {
                 if (emailState.text.toString() == resultEmail && passwordState.text.toString() == resultPassword) {
                     Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(context, MainActivity::class.java)
+                    registerLauncher.launch(intent)
                 } else {
                     Toast.makeText(context, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
                 }
