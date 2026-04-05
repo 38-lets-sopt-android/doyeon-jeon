@@ -32,16 +32,18 @@ private val LETSSOPTBaseTextStyle = TextStyle(
     ),
 )
 
-val InterBold = FontFamily(Font(R.font.inter_bold))
-val InterRegular = FontFamily(Font(R.font.inter_regular))
+private val InterFontFamily = FontFamily(
+    Font(R.font.inter_regular, weight = FontWeight.Normal),
+    Font(R.font.inter_bold, weight = FontWeight.Bold),
+)
 
 private val BoldStyle = LETSSOPTBaseTextStyle.copy(
-    fontFamily = InterBold,
+    fontFamily = InterFontFamily,
     fontWeight = FontWeight.Bold,
 )
 
 private val RegularStyle = LETSSOPTBaseTextStyle.copy(
-    fontFamily = InterRegular,
+    fontFamily = InterFontFamily,
     fontWeight = FontWeight.Normal,
 )
 
