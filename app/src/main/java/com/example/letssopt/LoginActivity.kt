@@ -2,7 +2,7 @@ package com.example.letssopt
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,7 +20,10 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -39,14 +42,15 @@ const val EMAIL_KEY = "emailKey"
 const val PASSWORD_KEY = "passwordKey"
 
 class LoginActivity : ComponentActivity() {
-    private val registerLauncher =registerForActivityResult(
+    private var resultEmail by mutableStateOf("")
+    private var resultPassword by mutableStateOf("")
+
+    private val registerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val resultEmail = result.data?.getStringExtra(EMAIL_KEY)
-            val resultPassword = result.data?.getStringExtra(PASSWORD_KEY)
-
-            Log.d("🚀","$resultEmail, $resultPassword")
+            resultEmail = result.data?.getStringExtra(EMAIL_KEY) ?: ""
+            resultPassword = result.data?.getStringExtra(PASSWORD_KEY) ?: ""
         }
     }
 
@@ -67,13 +71,21 @@ class LoginActivity : ComponentActivity() {
                 registerLauncher.launch(intent)
             }
 
+            fun onLoginBtnClick() {
+                if (emailState.text.toString() == resultEmail && passwordState.text.toString() == resultPassword) {
+                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
+                }
+            }
+
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
                         emailState = emailState,
                         passwordState = passwordState,
                         onRegisterBtnClick = { onRegisterBtnClick() },
-                        onLoginBtnClick = {},
+                        onLoginBtnClick = { onLoginBtnClick() },
                         loginBtnEnabled = loginBtnEnabled,
                         modifier = Modifier.padding(innerPadding),
                     )

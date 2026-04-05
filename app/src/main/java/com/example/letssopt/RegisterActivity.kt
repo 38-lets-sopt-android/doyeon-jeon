@@ -2,6 +2,8 @@ package com.example.letssopt
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -43,13 +45,29 @@ class RegisterActivity : ComponentActivity() {
                     && passwordState.text.isNotBlank()
                     && passwordCheckState.text.isNotBlank()
 
-            fun onRegisterBtnClick() {
-                val intent = Intent()
-                    .putExtra(EMAIL_KEY, emailState.text.toString())
-                    .putExtra(PASSWORD_KEY, passwordState.text.toString())
+            val context = LocalContext.current
 
-                setResult(RESULT_OK, intent)
-                finish()
+            fun onRegisterBtnClick() {
+                when {
+                    !Patterns.EMAIL_ADDRESS.matcher(emailState.text).matches() -> {
+                        Toast.makeText(context, "올바른 이메일 형식을 입력해주세요", Toast.LENGTH_SHORT).show()
+                    }
+
+                    passwordState.text != passwordCheckState.text -> {
+                        Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {
+                        Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent()
+                            .putExtra(EMAIL_KEY, emailState.text.toString())
+                            .putExtra(PASSWORD_KEY, passwordState.text.toString())
+
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
+                }
             }
 
             LETSSOPTTheme {
