@@ -1,5 +1,6 @@
 package com.example.letssopt
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -41,13 +43,22 @@ class RegisterActivity : ComponentActivity() {
                     && passwordState.text.isNotBlank()
                     && passwordCheckState.text.isNotBlank()
 
+            fun onRegisterBtnClick() {
+                val intent = Intent()
+                    .putExtra(EMAIL_KEY, emailState.text.toString())
+                    .putExtra(PASSWORD_KEY, passwordState.text.toString())
+
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     RegisterScreen(
                         emailState = emailState,
                         passwordState = passwordState,
                         passwordCheckState = passwordCheckState,
-                        onRegisterBtnClick = {},
+                        onRegisterBtnClick = { onRegisterBtnClick() },
                         registerBtnEnabled = registerBtnEnabled,
                         modifier = Modifier.padding(innerPadding)
                     )

@@ -1,9 +1,12 @@
 package com.example.letssopt
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -21,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -31,7 +35,21 @@ import com.example.letssopt.component.LogoText
 import com.example.letssopt.component.TextFieldDefault
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
+const val EMAIL_KEY = "emailKey"
+const val PASSWORD_KEY = "passwordKey"
+
 class LoginActivity : ComponentActivity() {
+    private val registerLauncher =registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val resultEmail = result.data?.getStringExtra(EMAIL_KEY)
+            val resultPassword = result.data?.getStringExtra(PASSWORD_KEY)
+
+            Log.d("🚀","$resultEmail, $resultPassword")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,14 +57,22 @@ class LoginActivity : ComponentActivity() {
         setContent {
             val emailState = rememberTextFieldState()
             val passwordState = rememberTextFieldState()
+
             val loginBtnEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
+
+            val context = LocalContext.current
+
+            fun onRegisterBtnClick() {
+                val intent = Intent(context, RegisterActivity::class.java)
+                registerLauncher.launch(intent)
+            }
 
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
                         emailState = emailState,
                         passwordState = passwordState,
-                        onRegisterBtnClick = {},
+                        onRegisterBtnClick = { onRegisterBtnClick() },
                         onLoginBtnClick = {},
                         loginBtnEnabled = loginBtnEnabled,
                         modifier = Modifier.padding(innerPadding),
