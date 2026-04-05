@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.component.ButtonPrimary
@@ -121,7 +122,10 @@ fun RegisterScreen(
             state = emailState,
             placeholder = "이메일 주소를 입력하세요",
             label = "이메일",
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Email
+            ),
             onKeyboardAction = {
                 focusManager.moveFocus(FocusDirection.Next)
             },
@@ -133,7 +137,11 @@ fun RegisterScreen(
             state = passwordState,
             placeholder = "비밀번호를 입력하세요",
             label = "비밀번호",
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            isPassword = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Password
+            ),
             onKeyboardAction = {
                 focusManager.moveFocus(FocusDirection.Next)
             },
@@ -145,7 +153,11 @@ fun RegisterScreen(
             state = passwordCheckState,
             placeholder = "비밀번호를 다시 입력하세요",
             label = "비밀번호 확인",
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            isPassword = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password
+            ),
             onKeyboardAction = {
                 keyboardController?.hide()
                 focusManager.clearFocus()

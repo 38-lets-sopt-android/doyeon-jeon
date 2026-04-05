@@ -13,6 +13,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.text.input.OutputTransformation
+import androidx.compose.foundation.text.input.TextFieldBuffer
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -21,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
@@ -31,6 +34,7 @@ fun TextFieldDefault(
     placeholder: String,
     modifier: Modifier = Modifier,
     label: String? = null,
+    isPassword: Boolean = false,
     inputTransformation: InputTransformation? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     onKeyboardAction: KeyboardActionHandler? = null,
@@ -58,6 +62,7 @@ fun TextFieldDefault(
                     shape = RoundedCornerShape(8.dp)
                 ),
             inputTransformation = inputTransformation,
+            outputTransformation = if (isPassword) PasswordOutputTransformation else null,
             textStyle = LETSSOPTTheme.typography.textField.copy(color = LETSSOPTTheme.colors.textPrimary),
             keyboardOptions = keyboardOptions,
             onKeyboardAction = onKeyboardAction,
@@ -79,6 +84,16 @@ fun TextFieldDefault(
                 }
             },
         )
+    }
+}
+
+object PasswordOutputTransformation : OutputTransformation {
+    override fun TextFieldBuffer.transformOutput() {
+        originalText.indices.forEach { index ->
+            if (index < originalText.length - 1) {
+                replace(index, index + 1, "*")
+            }
+        }
     }
 }
 
