@@ -1,6 +1,7 @@
 package com.example.letssopt.ui.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -41,9 +42,11 @@ private val RegularStyle = LETSSOPTBaseTextStyle.copy(
     fontWeight = FontWeight.Normal,
 )
 
-val Typography = LETSSOPTTypography(
+val defaultLETSSOPTTypography = LETSSOPTTypography(
     h1 = BoldStyle.copy(fontSize = 24.sp),
     h2 = BoldStyle.copy(fontSize = 20.sp),
     body = RegularStyle.copy(fontSize = 16.sp),
     caption = RegularStyle.copy(fontSize = 13.sp)
 )
+
+val LocalLETSSOPTTypographyProvider = staticCompositionLocalOf { defaultLETSSOPTTypography }
