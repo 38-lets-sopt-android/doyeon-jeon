@@ -1,34 +1,49 @@
 package com.example.letssopt.ui.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
+import com.example.letssopt.R
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+@Immutable
+class LETSSOPTTypography(
+    val h1: TextStyle,
+    val h2: TextStyle,
+    val body: TextStyle,
+    val caption: TextStyle,
+)
+
+private val LETSSOPTBaseTextStyle = TextStyle(
+    platformStyle = PlatformTextStyle(
+        includeFontPadding = false,
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None,
+    ),
+)
+
+val InterBold = FontFamily(Font(R.font.inter_bold))
+val InterRegular = FontFamily(Font(R.font.inter_regular))
+
+private val BoldStyle = LETSSOPTBaseTextStyle.copy(
+    fontFamily = InterBold,
+    fontWeight = FontWeight.Bold,
+)
+
+private val RegularStyle = LETSSOPTBaseTextStyle.copy(
+    fontFamily = InterRegular,
+    fontWeight = FontWeight.Normal,
+)
+
+val Typography = LETSSOPTTypography(
+    h1 = BoldStyle.copy(fontSize = 24.sp),
+    h2 = BoldStyle.copy(fontSize = 20.sp),
+    body = RegularStyle.copy(fontSize = 16.sp),
+    caption = RegularStyle.copy(fontSize = 13.sp)
 )
