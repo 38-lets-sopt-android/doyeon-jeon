@@ -13,6 +13,7 @@ import com.example.letssopt.R
 
 @Immutable
 class LETSSOPTTypography(
+    val logo: TextStyle,
     val h1: TextStyle,
     val h2: TextStyle,
     val body: TextStyle,
@@ -43,6 +44,7 @@ private val RegularStyle = LETSSOPTBaseTextStyle.copy(
 )
 
 val defaultLETSSOPTTypography = LETSSOPTTypography(
+    logo = BoldStyle.copy(fontSize = 36.sp),
     h1 = BoldStyle.copy(fontSize = 24.sp),
     h2 = BoldStyle.copy(fontSize = 20.sp),
     body = RegularStyle.copy(fontSize = 16.sp),
