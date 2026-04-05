@@ -18,6 +18,8 @@ class LETSSOPTTypography(
     val h2: TextStyle,
     val body: TextStyle,
     val caption: TextStyle,
+    val button: TextStyle,
+    val textField: TextStyle,
 )
 
 private val LETSSOPTBaseTextStyle = TextStyle(
@@ -48,7 +50,9 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
     h1 = BoldStyle.copy(fontSize = 24.sp),
     h2 = BoldStyle.copy(fontSize = 20.sp),
     body = RegularStyle.copy(fontSize = 16.sp),
-    caption = RegularStyle.copy(fontSize = 13.sp)
+    caption = RegularStyle.copy(fontSize = 13.sp),
+    button = BoldStyle.copy(fontSize = 16.sp),
+    textField = RegularStyle.copy(fontSize = 14.sp),
 )
 
 val LocalLETSSOPTTypographyProvider = staticCompositionLocalOf { defaultLETSSOPTTypography }
