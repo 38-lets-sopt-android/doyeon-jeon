@@ -67,7 +67,7 @@ fun TextFieldDefault(
             Text(
                 text = it,
                 color = LETSSOPTTheme.colors.textSecondary,
-                style = LETSSOPTTheme.typography.textField,
+                style = LETSSOPTTheme.typography.caption,
             )
         }
 
@@ -82,7 +82,7 @@ fun TextFieldDefault(
                 ),
             inputTransformation = inputTransformation,
             outputTransformation = outputTransformation,
-            textStyle = LETSSOPTTheme.typography.textField.copy(color = LETSSOPTTheme.colors.textPrimary),
+            textStyle = LETSSOPTTheme.typography.caption.copy(color = LETSSOPTTheme.colors.textPrimary),
             keyboardOptions = keyboardOptions,
             onKeyboardAction = onKeyboardAction,
             lineLimits = lineLimits,
@@ -95,7 +95,7 @@ fun TextFieldDefault(
                         Text(
                             text = placeholder,
                             color = LETSSOPTTheme.colors.placeHolder,
-                            style = LETSSOPTTheme.typography.textField,
+                            style = LETSSOPTTheme.typography.caption,
                         )
                     }
 

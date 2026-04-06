@@ -10,7 +10,7 @@ val Surface = Color(0xFF2A2A2A)
 val TextPrimary = Color(0xFFFFFFFF)
 val TextSecondary = Color(0xFF999999)
 val Placeholder = Color(0xFF666666)
-val ButtonDisabled = Color(0xFF333333)
+val Disabled = Color(0xFF333333)
 
 @Immutable
 class LETSSOPTColors(
@@ -20,7 +20,7 @@ class LETSSOPTColors(
     val textPrimary: Color,
     val textSecondary: Color,
     val placeHolder: Color,
-    val buttonDisabled: Color,
+    val disabled: Color,
 )
 
 val defaultLETSSOPTColors = LETSSOPTColors(
@@ -30,7 +30,7 @@ val defaultLETSSOPTColors = LETSSOPTColors(
     textPrimary = TextPrimary,
     textSecondary = TextSecondary,
     placeHolder = Placeholder,
-    buttonDisabled = ButtonDisabled,
+    disabled = Disabled,
 )
 
 val LocalLETSSOPTColorsProvider = staticCompositionLocalOf { defaultLETSSOPTColors }

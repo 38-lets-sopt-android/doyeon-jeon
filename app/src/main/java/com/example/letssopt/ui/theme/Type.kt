@@ -19,7 +19,6 @@ class LETSSOPTTypography(
     val body: TextStyle,
     val caption: TextStyle,
     val button: TextStyle,
-    val textField: TextStyle,
 )
 
 private val LETSSOPTBaseTextStyle = TextStyle(
@@ -32,18 +31,18 @@ private val LETSSOPTBaseTextStyle = TextStyle(
     ),
 )
 
-private val InterFontFamily = FontFamily(
-    Font(R.font.inter_regular, weight = FontWeight.Normal),
-    Font(R.font.inter_bold, weight = FontWeight.Bold),
+private val PretendardFontFamily = FontFamily(
+    Font(R.font.pretendard_regular, weight = FontWeight.Normal),
+    Font(R.font.pretendard_bold, weight = FontWeight.Bold),
 )
 
 private val BoldStyle = LETSSOPTBaseTextStyle.copy(
-    fontFamily = InterFontFamily,
+    fontFamily = PretendardFontFamily,
     fontWeight = FontWeight.Bold,
 )
 
 private val RegularStyle = LETSSOPTBaseTextStyle.copy(
-    fontFamily = InterFontFamily,
+    fontFamily = PretendardFontFamily,
     fontWeight = FontWeight.Normal,
 )
 
@@ -54,7 +53,6 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
     body = RegularStyle.copy(fontSize = 16.sp),
     caption = RegularStyle.copy(fontSize = 13.sp),
     button = BoldStyle.copy(fontSize = 16.sp),
-    textField = RegularStyle.copy(fontSize = 14.sp),
 )
 
 val LocalLETSSOPTTypographyProvider = staticCompositionLocalOf { defaultLETSSOPTTypography }

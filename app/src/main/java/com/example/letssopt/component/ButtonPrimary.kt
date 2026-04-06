@@ -36,7 +36,7 @@ fun ButtonPrimary(
             )
             .fillMaxWidth()
             .heightIn(25.dp)
-            .background(if (enabled) LETSSOPTTheme.colors.primaryRed else LETSSOPTTheme.colors.buttonDisabled)
+            .background(if (enabled) LETSSOPTTheme.colors.primaryRed else LETSSOPTTheme.colors.disabled)
             .wrapContentSize(Alignment.Center)
             .padding(all = 16.dp),
         color = if (enabled) LETSSOPTTheme.colors.textPrimary else LETSSOPTTheme.colors.placeHolder,
