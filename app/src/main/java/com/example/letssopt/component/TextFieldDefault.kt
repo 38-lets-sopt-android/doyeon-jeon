@@ -20,13 +20,18 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun TextFieldDefault(
@@ -40,6 +45,20 @@ fun TextFieldDefault(
     onKeyboardAction: KeyboardActionHandler? = null,
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.SingleLine,
 ) {
+    var maskLastChar by remember { mutableStateOf(true) }
+
+    LaunchedEffect(state.text, isPassword) {
+        if (isPassword) {
+            maskLastChar = false
+            delay(1000L)
+            maskLastChar = true
+        }
+    }
+
+    val outputTransformation = remember(maskLastChar, isPassword) {
+        if (isPassword) PasswordOutputTransformation(maskLastChar) else null
+    }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -62,7 +81,7 @@ fun TextFieldDefault(
                     shape = RoundedCornerShape(8.dp)
                 ),
             inputTransformation = inputTransformation,
-            outputTransformation = if (isPassword) PasswordOutputTransformation else null,
+            outputTransformation = outputTransformation,
             textStyle = LETSSOPTTheme.typography.textField.copy(color = LETSSOPTTheme.colors.textPrimary),
             keyboardOptions = keyboardOptions,
             onKeyboardAction = onKeyboardAction,
@@ -87,10 +106,10 @@ fun TextFieldDefault(
     }
 }
 
-object PasswordOutputTransformation : OutputTransformation {
+class PasswordOutputTransformation(private val maskLastChar: Boolean) : OutputTransformation {
     override fun TextFieldBuffer.transformOutput() {
         originalText.indices.forEach { index ->
-            if (index < originalText.length - 1) {
+            if (maskLastChar || index < originalText.length - 1) {
                 replace(index, index + 1, "*")
             }
         }
