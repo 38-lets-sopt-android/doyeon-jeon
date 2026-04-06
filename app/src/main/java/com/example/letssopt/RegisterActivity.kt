@@ -54,6 +54,10 @@ class RegisterActivity : ComponentActivity() {
                         Toast.makeText(context, "올바른 이메일 형식을 입력해주세요", Toast.LENGTH_SHORT).show()
                     }
 
+                    passwordState.text.length !in 8..12 -> {
+                        Toast.makeText(context, "비밀번호는 8~12자로 입력해주세요", Toast.LENGTH_SHORT).show()
+                    }
+
                     passwordState.text != passwordCheckState.text -> {
                         Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
                     }
