@@ -35,7 +35,7 @@ fun ButtonPrimary(
                 enabled = enabled,
             )
             .fillMaxWidth()
-            .heightIn(25.dp)
+            .heightIn(52.dp)
             .background(if (enabled) LETSSOPTTheme.colors.primaryRed else LETSSOPTTheme.colors.disabled)
             .wrapContentSize(Alignment.Center)
             .padding(all = 16.dp),
