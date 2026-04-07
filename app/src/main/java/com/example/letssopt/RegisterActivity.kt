@@ -11,10 +11,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,24 +45,36 @@ class RegisterActivity : ComponentActivity() {
             val passwordState = rememberTextFieldState()
             val passwordCheckState = rememberTextFieldState()
 
-            val registerEnabled = emailState.text.isNotBlank()
-                    && passwordState.text.isNotBlank()
-                    && passwordCheckState.text.isNotBlank()
+            val registerEnabled =
+                emailState.text.isNotBlank() && passwordState.text.isNotBlank() && passwordCheckState.text.isNotBlank()
 
             LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding(),
+                    bottomBar = {
+                        ButtonPrimary(
+                            text = "회원가입",
+                            onClick = {
+                                onRegisterClick(
+                                    emailText = emailState.text.toString(),
+                                    passwordText = passwordState.text.toString(),
+                                    passwordCheckText = passwordCheckState.text.toString(),
+                                )
+                            },
+                            enabled = registerEnabled,
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                                .padding(horizontal = 20.dp)
+                                .padding(top = 8.dp, bottom = 26.dp)
+                        )
+                    }
+                ) { innerPadding ->
                     RegisterScreen(
                         emailState = emailState,
                         passwordState = passwordState,
                         passwordCheckState = passwordCheckState,
-                        onRegisterClick = {
-                            onRegisterClick(
-                                emailText = emailState.text.toString(),
-                                passwordText = passwordState.text.toString(),
-                                passwordCheckText = passwordCheckState.text.toString(),
-                            )
-                        },
-                        registerEnabled = registerEnabled,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -103,17 +119,17 @@ fun RegisterScreen(
     emailState: TextFieldState,
     passwordState: TextFieldState,
     passwordCheckState: TextFieldState,
-    onRegisterClick: () -> Unit,
-    registerEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LogoText(
@@ -134,8 +150,7 @@ fun RegisterScreen(
             placeholder = "이메일 주소를 입력하세요",
             label = "이메일",
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
+                imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
             ),
             onKeyboardAction = {
                 focusManager.moveFocus(FocusDirection.Next)
@@ -150,8 +165,7 @@ fun RegisterScreen(
             label = "비밀번호",
             isPassword = true,
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Password
+                imeAction = ImeAction.Next, keyboardType = KeyboardType.Password
             ),
             onKeyboardAction = {
                 focusManager.moveFocus(FocusDirection.Next)
@@ -166,24 +180,13 @@ fun RegisterScreen(
             label = "비밀번호 확인",
             isPassword = true,
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password
+                imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
             ),
             onKeyboardAction = {
                 keyboardController?.hide()
                 focusManager.clearFocus()
             },
         )
-
-        Spacer(Modifier.weight(1f))
-
-        ButtonPrimary(
-            text = "회원가입",
-            onClick = onRegisterClick,
-            enabled = registerEnabled,
-        )
-
-        Spacer(Modifier.height(26.dp))
     }
 }
 
@@ -195,8 +198,6 @@ private fun RegisterScreenPreview() {
             emailState = rememberTextFieldState(),
             passwordState = rememberTextFieldState(),
             passwordCheckState = rememberTextFieldState(),
-            onRegisterClick = {},
-            registerEnabled = true,
         )
     }
 }

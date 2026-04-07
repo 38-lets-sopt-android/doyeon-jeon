@@ -13,11 +13,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,7 +70,27 @@ class LoginActivity : ComponentActivity() {
             val loginEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
 
             LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding(),
+                    bottomBar = {
+                        ButtonPrimary(
+                            text = "로그인",
+                            onClick = {
+                                onLoginClick(
+                                    emailText = emailState.text.toString(),
+                                    passwordText = passwordState.text.toString(),
+                                )
+                            },
+                            enabled = loginEnabled,
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                                .padding(horizontal = 20.dp)
+                                .padding(top = 8.dp, bottom = 26.dp)
+                        )
+                    }
+                ) { innerPadding ->
                     LoginScreen(
                         emailState = emailState,
                         passwordState = passwordState,
@@ -76,13 +100,6 @@ class LoginActivity : ComponentActivity() {
                                 passwordState = passwordState,
                             )
                         },
-                        onLoginClick = {
-                            onLoginClick(
-                                emailText = emailState.text.toString(),
-                                passwordText = passwordState.text.toString(),
-                            )
-                        },
-                        loginEnabled = loginEnabled,
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
@@ -121,12 +138,11 @@ fun LoginScreen(
     emailState: TextFieldState,
     passwordState: TextFieldState,
     onRegisterClick: () -> Unit,
-    onLoginClick: () -> Unit,
-    loginEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
@@ -134,48 +150,53 @@ fun LoginScreen(
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        LogoText(
-            modifier = Modifier.padding(top = 60.dp, bottom = 26.dp)
-        )
+        Column(
+            modifier = Modifier.verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            LogoText(
+                modifier = Modifier.padding(top = 60.dp, bottom = 26.dp)
+            )
 
-        Text(
-            text = "이메일로 로그인",
-            modifier = Modifier.align(Alignment.Start),
-            color = LETSSOPTTheme.colors.textPrimary,
-            style = LETSSOPTTheme.typography.h2,
-        )
+            Text(
+                text = "이메일로 로그인",
+                modifier = Modifier.align(Alignment.Start),
+                color = LETSSOPTTheme.colors.textPrimary,
+                style = LETSSOPTTheme.typography.h2,
+            )
 
-        Spacer(Modifier.height(36.dp))
+            Spacer(Modifier.height(36.dp))
 
-        TextFieldDefault(
-            state = emailState,
-            placeholder = "이메일 주소를 입력하세요",
-            label = "이메일",
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
-            ),
-            onKeyboardAction = {
-                focusManager.moveFocus(FocusDirection.Next)
-            },
-        )
+            TextFieldDefault(
+                state = emailState,
+                placeholder = "이메일 주소를 입력하세요",
+                label = "이메일",
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
 
-        Spacer(Modifier.height(36.dp))
+            Spacer(Modifier.height(36.dp))
 
-        TextFieldDefault(
-            state = passwordState,
-            placeholder = "비밀번호를 입력하세요",
-            label = "비밀번호",
-            isPassword = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password
-            ),
-            onKeyboardAction = {
-                keyboardController?.hide()
-                focusManager.clearFocus()
-            },
-        )
+            TextFieldDefault(
+                state = passwordState,
+                placeholder = "비밀번호를 입력하세요",
+                label = "비밀번호",
+                isPassword = true,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
+                ),
+                onKeyboardAction = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                },
+            )
+        }
 
         Spacer(Modifier.weight(1f))
 
@@ -187,18 +208,10 @@ fun LoginScreen(
                     indication = null,
                     onClick = onRegisterClick,
                 )
-                .padding(vertical = 20.dp),
+                .padding(top = 20.dp, bottom = 12.dp),
             color = LETSSOPTTheme.colors.textSecondary,
             style = LETSSOPTTheme.typography.caption
         )
-
-        ButtonPrimary(
-            text = "로그인",
-            onClick = onLoginClick,
-            enabled = loginEnabled,
-        )
-
-        Spacer(Modifier.height(26.dp))
     }
 }
 
@@ -210,8 +223,6 @@ private fun LoginScreenPreview() {
             emailState = rememberTextFieldState(),
             passwordState = rememberTextFieldState(),
             onRegisterClick = {},
-            onLoginClick = {},
-            loginEnabled = true,
         )
     }
 }
