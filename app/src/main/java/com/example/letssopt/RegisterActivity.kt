@@ -48,6 +48,9 @@ class RegisterActivity : ComponentActivity() {
             val registerEnabled =
                 emailState.text.isNotBlank() && passwordState.text.isNotBlank() && passwordCheckState.text.isNotBlank()
 
+            val keyboardController = LocalSoftwareKeyboardController.current
+            val focusManager = LocalFocusManager.current
+
             LETSSOPTTheme {
                 Scaffold(
                     modifier = Modifier
@@ -57,6 +60,9 @@ class RegisterActivity : ComponentActivity() {
                         ButtonPrimary(
                             text = "회원가입",
                             onClick = {
+                                keyboardController?.hide()
+                                focusManager.clearFocus()
+
                                 onRegisterClick(
                                     emailText = emailState.text.toString(),
                                     passwordText = passwordState.text.toString(),

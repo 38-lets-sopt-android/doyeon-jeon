@@ -69,6 +69,9 @@ class LoginActivity : ComponentActivity() {
 
             val loginEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
 
+            val keyboardController = LocalSoftwareKeyboardController.current
+            val focusManager = LocalFocusManager.current
+
             LETSSOPTTheme {
                 Scaffold(
                     modifier = Modifier
@@ -78,6 +81,9 @@ class LoginActivity : ComponentActivity() {
                         ButtonPrimary(
                             text = "로그인",
                             onClick = {
+                                keyboardController?.hide()
+                                focusManager.clearFocus()
+
                                 onLoginClick(
                                     emailText = emailState.text.toString(),
                                     passwordText = passwordState.text.toString(),
