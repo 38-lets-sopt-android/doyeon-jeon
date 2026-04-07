@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -66,39 +65,53 @@ class LoginActivity : ComponentActivity() {
 
             val loginEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
 
-            val context = LocalContext.current
-
-            fun onRegisterClick() {
-                emailState.clearText()
-                passwordState.clearText()
-
-                val intent = Intent(context, RegisterActivity::class.java)
-                registerLauncher.launch(intent)
-            }
-
-            fun onLoginClick() {
-                if (emailState.text.toString() == resultEmail && passwordState.text.toString() == resultPassword) {
-                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(context, MainActivity::class.java)
-                    context.startActivity(intent)
-                } else {
-                    Toast.makeText(context, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
-                }
-            }
-
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
                         emailState = emailState,
                         passwordState = passwordState,
-                        onRegisterClick = { onRegisterClick() },
-                        onLoginClick = { onLoginClick() },
+                        onRegisterClick = {
+                            onRegisterClick(
+                                emailState = emailState,
+                                passwordState = passwordState,
+                            )
+                        },
+                        onLoginClick = {
+                            onLoginClick(
+                                emailText = emailState.text.toString(),
+                                passwordText = passwordState.text.toString(),
+                            )
+                        },
                         loginEnabled = loginEnabled,
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
             }
+        }
+    }
+
+    private fun onRegisterClick(
+        emailState: TextFieldState,
+        passwordState: TextFieldState,
+    ) {
+        emailState.clearText()
+        passwordState.clearText()
+
+        val intent = Intent(this, RegisterActivity::class.java)
+        registerLauncher.launch(intent)
+    }
+
+    private fun onLoginClick(
+        emailText: String,
+        passwordText: String,
+    ) {
+        if (emailText == resultEmail && passwordText == resultPassword) {
+            Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this, MainActivity::class.java)
+            this.startActivity(intent)
+        } else {
+            Toast.makeText(this, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
         }
     }
 }

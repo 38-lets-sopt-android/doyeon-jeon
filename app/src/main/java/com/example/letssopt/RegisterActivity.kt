@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -46,46 +45,54 @@ class RegisterActivity : ComponentActivity() {
                     && passwordState.text.isNotBlank()
                     && passwordCheckState.text.isNotBlank()
 
-            val context = LocalContext.current
-
-            fun onRegisterClick() {
-                when {
-                    !Patterns.EMAIL_ADDRESS.matcher(emailState.text).matches() -> {
-                        Toast.makeText(context, "올바른 이메일 형식을 입력해주세요", Toast.LENGTH_SHORT).show()
-                    }
-
-                    passwordState.text.length !in 8..12 -> {
-                        Toast.makeText(context, "비밀번호는 8~12자로 입력해주세요", Toast.LENGTH_SHORT).show()
-                    }
-
-                    passwordState.text != passwordCheckState.text -> {
-                        Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
-                        Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-                        val intent = Intent()
-                            .putExtra(EMAIL_KEY, emailState.text.toString())
-                            .putExtra(PASSWORD_KEY, passwordState.text.toString())
-
-                        setResult(RESULT_OK, intent)
-                        finish()
-                    }
-                }
-            }
-
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     RegisterScreen(
                         emailState = emailState,
                         passwordState = passwordState,
                         passwordCheckState = passwordCheckState,
-                        onRegisterClick = { onRegisterClick() },
+                        onRegisterClick = {
+                            onRegisterClick(
+                                emailText = emailState.text.toString(),
+                                passwordText = passwordState.text.toString(),
+                                passwordCheckText = passwordCheckState.text.toString(),
+                            )
+                        },
                         registerEnabled = registerEnabled,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
+            }
+        }
+    }
+
+    private fun onRegisterClick(
+        emailText: String,
+        passwordText: String,
+        passwordCheckText: String,
+    ) {
+        when {
+            !Patterns.EMAIL_ADDRESS.matcher(emailText).matches() -> {
+                Toast.makeText(this, "올바른 이메일 형식을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+
+            passwordText.length !in 8..12 -> {
+                Toast.makeText(this, "비밀번호는 8~12자로 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+
+            passwordText != passwordCheckText -> {
+                Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {
+                Toast.makeText(this, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent()
+                    .putExtra(EMAIL_KEY, emailText)
+                    .putExtra(PASSWORD_KEY, passwordText)
+
+                setResult(RESULT_OK, intent)
+                finish()
             }
         }
     }
