@@ -131,7 +131,9 @@ class LoginActivity : ComponentActivity() {
         if (emailText == resultEmail && passwordText == resultPassword) {
             Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             this.startActivity(intent)
         } else {
             Toast.makeText(this, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
