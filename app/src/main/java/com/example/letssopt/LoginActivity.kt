@@ -25,10 +25,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -47,8 +46,8 @@ const val EMAIL_KEY = "emailKey"
 const val PASSWORD_KEY = "passwordKey"
 
 class LoginActivity : ComponentActivity() {
-    private var resultEmail by mutableStateOf("")
-    private var resultPassword by mutableStateOf("")
+    private var resultEmail = ""
+    private var resultPassword = ""
 
     private val registerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -67,77 +66,64 @@ class LoginActivity : ComponentActivity() {
             val emailState = rememberTextFieldState()
             val passwordState = rememberTextFieldState()
 
-            val loginEnabled = emailState.text.isNotBlank() && passwordState.text.isNotBlank()
-
-            val keyboardController = LocalSoftwareKeyboardController.current
-            val focusManager = LocalFocusManager.current
+            val loginEnabled by remember {
+                derivedStateOf { emailState.text.isNotBlank() && passwordState.text.isNotBlank() }
+            }
 
             LETSSOPTTheme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .imePadding(),
-                    bottomBar = {
-                        ButtonPrimary(
-                            text = "로그인",
-                            onClick = {
-                                keyboardController?.hide()
-                                focusManager.clearFocus()
-
-                                onLoginClick(
-                                    emailText = emailState.text.toString(),
-                                    passwordText = passwordState.text.toString(),
-                                )
-                            },
-                            enabled = loginEnabled,
-                            modifier = Modifier
-                                .navigationBarsPadding()
-                                .padding(horizontal = 20.dp)
-                                .padding(top = 8.dp, bottom = 26.dp)
+                LoginScreen(
+                    emailState = emailState,
+                    passwordState = passwordState,
+                    loginEnabled = loginEnabled,
+                    onLoginClick = {
+                        onLoginClick(
+                            emailText = emailState.text.toString(),
+                            passwordText = passwordState.text.toString(),
                         )
-                    }
-                ) { innerPadding ->
-                    LoginScreen(
-                        emailState = emailState,
-                        passwordState = passwordState,
-                        onRegisterClick = {
-                            onRegisterClick(
-                                emailState = emailState,
-                                passwordState = passwordState,
-                            )
-                        },
-                        modifier = Modifier.padding(innerPadding),
-                    )
-                }
+                    },
+                    onRegisterClick = ::onRegisterClick,
+                )
             }
         }
     }
 
-    private fun onRegisterClick(
-        emailState: TextFieldState,
-        passwordState: TextFieldState,
-    ) {
-        emailState.clearText()
-        passwordState.clearText()
-
+    private fun onRegisterClick() {
         val intent = Intent(this, RegisterActivity::class.java)
         registerLauncher.launch(intent)
+    }
+
+    private enum class LoginValidationError(val message: String) {
+        EMAIL_NOT_FOUND("존재하지 않는 이메일입니다"),
+        PASSWORD_MISMATCH("비밀번호가 올바르지 않습니다"),
+    }
+
+    private fun validateLoginInputs(
+        emailText: String,
+        passwordText: String,
+    ): LoginValidationError? {
+        return when {
+            emailText != resultEmail -> LoginValidationError.EMAIL_NOT_FOUND
+            passwordText != resultPassword -> LoginValidationError.PASSWORD_MISMATCH
+            else -> null
+        }
     }
 
     private fun onLoginClick(
         emailText: String,
         passwordText: String,
     ) {
-        if (emailText == resultEmail && passwordText == resultPassword) {
-            Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-            val intent = Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-            this.startActivity(intent)
-        } else {
-            Toast.makeText(this, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
+        val error = validateLoginInputs(emailText, passwordText)
+        if (error != null) {
+            Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+            return
         }
+
+        Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
     }
 }
 
@@ -145,6 +131,8 @@ class LoginActivity : ComponentActivity() {
 fun LoginScreen(
     emailState: TextFieldState,
     passwordState: TextFieldState,
+    loginEnabled: Boolean,
+    onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -152,74 +140,100 @@ fun LoginScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
 
-    Column(
+    Scaffold(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Column(
-            modifier = Modifier.verticalScroll(scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            LogoText(
-                modifier = Modifier.padding(top = 60.dp, bottom = 26.dp)
-            )
-
-            Text(
-                text = "이메일로 로그인",
-                modifier = Modifier.align(Alignment.Start),
-                color = LETSSOPTTheme.colors.textPrimary,
-                style = LETSSOPTTheme.typography.h2,
-            )
-
-            Spacer(Modifier.height(36.dp))
-
-            TextFieldDefault(
-                state = emailState,
-                placeholder = "이메일 주소를 입력하세요",
-                label = "이메일",
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Email
-                ),
-                onKeyboardAction = {
-                    focusManager.moveFocus(FocusDirection.Next)
-                },
-            )
-
-            Spacer(Modifier.height(36.dp))
-
-            TextFieldDefault(
-                state = passwordState,
-                placeholder = "비밀번호를 입력하세요",
-                label = "비밀번호",
-                isPassword = true,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Password
-                ),
-                onKeyboardAction = {
+            .imePadding(),
+        bottomBar = {
+            ButtonPrimary(
+                text = "로그인",
+                onClick = {
                     keyboardController?.hide()
                     focusManager.clearFocus()
+                    onLoginClick()
                 },
+                enabled = loginEnabled,
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 8.dp, bottom = 26.dp)
             )
         }
-
-        Spacer(Modifier.weight(1f))
-
-        Text(
-            text = "아직 계정이 없으신가요?  회원가입",
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onRegisterClick,
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Column(
+                modifier = Modifier.verticalScroll(scrollState),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                LogoText(
+                    modifier = Modifier.padding(top = 60.dp, bottom = 26.dp)
                 )
-                .padding(top = 20.dp, bottom = 12.dp),
-            color = LETSSOPTTheme.colors.textSecondary,
-            style = LETSSOPTTheme.typography.caption
-        )
+
+                Text(
+                    text = "이메일로 로그인",
+                    modifier = Modifier.align(Alignment.Start),
+                    color = LETSSOPTTheme.colors.textPrimary,
+                    style = LETSSOPTTheme.typography.h2,
+                )
+
+                Spacer(Modifier.height(36.dp))
+
+                TextFieldDefault(
+                    state = emailState,
+                    placeholder = "이메일 주소를 입력하세요",
+                    label = "이메일",
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Email
+                    ),
+                    onKeyboardAction = {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    },
+                )
+
+                Spacer(Modifier.height(36.dp))
+
+                TextFieldDefault(
+                    state = passwordState,
+                    placeholder = "비밀번호를 입력하세요",
+                    label = "비밀번호",
+                    isPassword = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Password
+                    ),
+                    onKeyboardAction = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    },
+                )
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            Text(
+                text = "아직 계정이 없으신가요?  회원가입",
+                modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {
+                            emailState.clearText()
+                            passwordState.clearText()
+                            onRegisterClick()
+                        },
+                    )
+                    .padding(top = 20.dp, bottom = 12.dp),
+                color = LETSSOPTTheme.colors.textSecondary,
+                style = LETSSOPTTheme.typography.caption
+            )
+        }
     }
 }
 
@@ -230,6 +244,8 @@ private fun LoginScreenPreview() {
         LoginScreen(
             emailState = rememberTextFieldState(),
             passwordState = rememberTextFieldState(),
+            loginEnabled = true,
+            onLoginClick = {},
             onRegisterClick = {},
         )
     }
