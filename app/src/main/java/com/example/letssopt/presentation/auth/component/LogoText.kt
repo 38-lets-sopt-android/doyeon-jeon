@@ -1,9 +1,9 @@
-package com.example.letssopt.component
+package com.example.letssopt.presentation.auth.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.letssopt.ui.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 @Composable
 fun LogoText(

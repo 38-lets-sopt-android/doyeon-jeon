@@ -1,4 +1,4 @@
-package com.example.letssopt
+package com.example.letssopt.presentation.auth.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -37,13 +37,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.component.ButtonPrimary
-import com.example.letssopt.component.LogoText
-import com.example.letssopt.component.TextFieldDefault
-import com.example.letssopt.ui.theme.LETSSOPTTheme
-
-const val EMAIL_KEY = "emailKey"
-const val PASSWORD_KEY = "passwordKey"
+import com.example.letssopt.presentation.main.MainActivity
+import com.example.letssopt.presentation.auth.register.RegisterActivity
+import com.example.letssopt.core.designsystem.component.ButtonPrimary
+import com.example.letssopt.presentation.auth.component.LogoText
+import com.example.letssopt.core.designsystem.component.TextFieldDefault
+import com.example.letssopt.presentation.auth.util.EMAIL_KEY
+import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 class LoginActivity : ComponentActivity() {
     private var resultEmail = ""

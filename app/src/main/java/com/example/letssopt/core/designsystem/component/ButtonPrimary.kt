@@ -1,4 +1,4 @@
-package com.example.letssopt.component
+package com.example.letssopt.core.designsystem.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.ui.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 @Composable
 fun ButtonPrimary(

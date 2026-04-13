@@ -1,4 +1,4 @@
-package com.example.letssopt
+package com.example.letssopt.presentation.auth.register
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,10 +34,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.component.ButtonPrimary
-import com.example.letssopt.component.LogoText
-import com.example.letssopt.component.TextFieldDefault
-import com.example.letssopt.ui.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.component.ButtonPrimary
+import com.example.letssopt.presentation.auth.component.LogoText
+import com.example.letssopt.core.designsystem.component.TextFieldDefault
+import com.example.letssopt.presentation.auth.util.EMAIL_KEY
+import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
