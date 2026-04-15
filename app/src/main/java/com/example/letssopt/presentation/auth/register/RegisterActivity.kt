@@ -1,0 +1,232 @@
+package com.example.letssopt.presentation.auth.register
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Patterns
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.letssopt.core.designsystem.component.ButtonPrimary
+import com.example.letssopt.presentation.auth.component.LogoText
+import com.example.letssopt.core.designsystem.component.TextFieldDefault
+import com.example.letssopt.presentation.auth.util.EMAIL_KEY
+import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+
+class RegisterActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            val emailState = rememberTextFieldState()
+            val passwordState = rememberTextFieldState()
+            val passwordConfirmState = rememberTextFieldState()
+
+            val registerEnabled by remember {
+                derivedStateOf {
+                    emailState.text.isNotBlank() && passwordState.text.isNotBlank() && passwordConfirmState.text.isNotBlank()
+                }
+            }
+
+            LETSSOPTTheme {
+                RegisterScreen(
+                    emailState = emailState,
+                    passwordState = passwordState,
+                    passwordConfirmState = passwordConfirmState,
+                    registerEnabled = registerEnabled,
+                    onRegisterClick = {
+                        onRegisterClick(
+                            emailText = emailState.text.toString(),
+                            passwordText = passwordState.text.toString(),
+                            passwordCheckText = passwordConfirmState.text.toString()
+                        )
+                    },
+                )
+            }
+        }
+    }
+
+    private enum class RegisterValidationError(val message: String) {
+        EMAIL_INVALID("올바른 이메일 형식을 입력해주세요"),
+        PASSWORD_INVALID_LENGTH("비밀번호는 8~12자로 입력해주세요"),
+        PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다")
+    }
+
+    private fun validateRegisterInputs(
+        emailText: String,
+        passwordText: String,
+        passwordCheckText: String,
+    ): RegisterValidationError? {
+        return when {
+            !Patterns.EMAIL_ADDRESS.matcher(emailText)
+                .matches() -> RegisterValidationError.EMAIL_INVALID
+
+            passwordText.length !in 8..12 -> RegisterValidationError.PASSWORD_INVALID_LENGTH
+            passwordText != passwordCheckText -> RegisterValidationError.PASSWORD_MISMATCH
+            else -> null
+        }
+    }
+
+    private fun onRegisterClick(
+        emailText: String,
+        passwordText: String,
+        passwordCheckText: String,
+    ) {
+        val error = validateRegisterInputs(emailText, passwordText, passwordCheckText)
+        if (error != null) {
+            Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        Toast.makeText(this, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent()
+            .putExtra(EMAIL_KEY, emailText)
+            .putExtra(PASSWORD_KEY, passwordText)
+
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+}
+
+@Composable
+fun RegisterScreen(
+    emailState: TextFieldState,
+    passwordState: TextFieldState,
+    passwordConfirmState: TextFieldState,
+    registerEnabled: Boolean,
+    onRegisterClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val scrollState = rememberScrollState()
+
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize()
+            .imePadding(),
+        bottomBar = {
+            ButtonPrimary(
+                text = "회원가입",
+                onClick = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                    onRegisterClick()
+                },
+                enabled = registerEnabled,
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 8.dp, bottom = 26.dp)
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 20.dp)
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            LogoText(
+                modifier = Modifier.padding(top = 60.dp, bottom = 26.dp)
+            )
+
+            Text(
+                text = "회원가입",
+                modifier = Modifier.align(Alignment.Start),
+                color = LETSSOPTTheme.colors.textPrimary,
+                style = LETSSOPTTheme.typography.h2,
+            )
+
+            Spacer(Modifier.height(36.dp))
+
+            TextFieldDefault(
+                state = emailState,
+                placeholder = "이메일 주소를 입력하세요",
+                label = "이메일",
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
+
+            Spacer(Modifier.height(18.dp))
+
+            TextFieldDefault(
+                state = passwordState,
+                placeholder = "비밀번호를 입력하세요",
+                label = "비밀번호",
+                isPassword = true,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Password
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
+
+            Spacer(Modifier.height(18.dp))
+
+            TextFieldDefault(
+                state = passwordConfirmState,
+                placeholder = "비밀번호를 다시 입력하세요",
+                label = "비밀번호 확인",
+                isPassword = true,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
+                ),
+                onKeyboardAction = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                },
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun RegisterScreenPreview() {
+    LETSSOPTTheme {
+        RegisterScreen(
+            emailState = rememberTextFieldState(),
+            passwordState = rememberTextFieldState(),
+            passwordConfirmState = rememberTextFieldState(),
+            registerEnabled = true,
+            onRegisterClick = {}
+        )
+    }
+}
