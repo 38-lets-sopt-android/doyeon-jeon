@@ -2,4 +2,5 @@
     <string name="app_name">LETSSOPT</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="shared_preference_file_key">shared preference file key</string>
 </resources>
