@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.home.model.WatchPartyModel
+import com.example.letssopt.domain.model.WatchPartyModel
 
 @Composable
 fun WatchPartySection(

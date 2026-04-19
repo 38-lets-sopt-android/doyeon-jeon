@@ -1,8 +1,8 @@
 package com.example.letssopt.presentation.home
 
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.presentation.home.model.ContentModel
-import com.example.letssopt.presentation.home.model.WatchPartyModel
+import com.example.letssopt.domain.model.ContentModel
+import com.example.letssopt.domain.model.WatchPartyModel
 
 class HomeViewModel: BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
     init {

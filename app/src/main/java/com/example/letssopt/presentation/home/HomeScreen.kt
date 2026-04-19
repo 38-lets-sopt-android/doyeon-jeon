@@ -15,8 +15,8 @@ import com.example.letssopt.presentation.home.component.NewContentsSection
 import com.example.letssopt.presentation.home.component.UpcomingContentsSection
 import com.example.letssopt.presentation.home.component.WatchPartySection
 import com.example.letssopt.presentation.home.component.WhatgorithmSection
-import com.example.letssopt.presentation.home.model.ContentModel
-import com.example.letssopt.presentation.home.model.WatchPartyModel
+import com.example.letssopt.domain.model.ContentModel
+import com.example.letssopt.domain.model.WatchPartyModel
 
 @Composable
 fun HomeRoute(

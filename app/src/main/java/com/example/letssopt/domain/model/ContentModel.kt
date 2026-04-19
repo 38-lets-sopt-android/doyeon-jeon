@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation.home.model
+package com.example.letssopt.domain.model
 
 import java.util.UUID
 

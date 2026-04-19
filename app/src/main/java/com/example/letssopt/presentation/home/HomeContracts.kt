@@ -3,8 +3,8 @@ package com.example.letssopt.presentation.home
 import androidx.compose.runtime.Immutable
 import com.example.letssopt.core.base.UiEffect
 import com.example.letssopt.core.base.UiState
-import com.example.letssopt.presentation.home.model.ContentModel
-import com.example.letssopt.presentation.home.model.WatchPartyModel
+import com.example.letssopt.domain.model.ContentModel
+import com.example.letssopt.domain.model.WatchPartyModel
 
 @Immutable
 data class HomeUiState(

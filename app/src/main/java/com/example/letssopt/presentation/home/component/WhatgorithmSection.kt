@@ -24,7 +24,7 @@ import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseAsyncImage
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.verticalThumbnail
-import com.example.letssopt.presentation.home.model.ContentModel
+import com.example.letssopt.domain.model.ContentModel
 
 @Composable
 fun WhatgorithmSection(

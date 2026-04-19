@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.base.BaseAsyncImage
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.home.model.ContentModel
+import com.example.letssopt.domain.model.ContentModel
 
 @Composable
 fun NewContentsSection(
