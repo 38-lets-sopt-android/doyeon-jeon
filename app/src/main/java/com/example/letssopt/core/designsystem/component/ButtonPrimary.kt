@@ -39,7 +39,7 @@ fun ButtonPrimary(
             .background(if (enabled) LETSSOPTTheme.colors.primaryRed else LETSSOPTTheme.colors.disabled)
             .wrapContentSize(Alignment.Center)
             .padding(all = 16.dp),
-        color = if (enabled) LETSSOPTTheme.colors.textPrimary else LETSSOPTTheme.colors.placeHolder,
+        color = if (enabled) LETSSOPTTheme.colors.white else LETSSOPTTheme.colors.placeHolder,
         style = LETSSOPTTheme.typography.button,
     )
 }

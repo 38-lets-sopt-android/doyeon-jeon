@@ -82,7 +82,7 @@ fun TextFieldDefault(
                 ),
             inputTransformation = inputTransformation,
             outputTransformation = outputTransformation,
-            textStyle = LETSSOPTTheme.typography.caption.copy(color = LETSSOPTTheme.colors.textPrimary),
+            textStyle = LETSSOPTTheme.typography.caption.copy(color = LETSSOPTTheme.colors.white),
             keyboardOptions = keyboardOptions,
             onKeyboardAction = onKeyboardAction,
             lineLimits = lineLimits,

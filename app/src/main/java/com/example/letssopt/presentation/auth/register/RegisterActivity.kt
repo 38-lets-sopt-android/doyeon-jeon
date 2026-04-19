@@ -120,7 +120,7 @@ fun RegisterScreen(
             Text(
                 text = "회원가입",
                 modifier = Modifier.align(Alignment.Start),
-                color = LETSSOPTTheme.colors.textPrimary,
+                color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.h2,
             )
 
