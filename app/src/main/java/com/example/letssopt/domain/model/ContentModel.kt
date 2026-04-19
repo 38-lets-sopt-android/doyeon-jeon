@@ -5,7 +5,7 @@ import java.util.UUID
 data class ContentModel(
     val thumbnailUrl: String,
     val id: String = UUID.randomUUID().toString(),
-    ) {
+) {
     companion object {
         val newContents = listOf(
             ContentModel("https://i.pinimg.com/736x/f7/be/30/f7be30287de05b59ac5dabee9fcf0cc6.jpg"),
@@ -25,6 +25,16 @@ data class ContentModel(
             ContentModel("https://i.pinimg.com/1200x/40/d2/e4/40d2e40f3fc376e47c53a17897e0ba31.jpg"),
             ContentModel("https://i.pinimg.com/736x/88/b3/d2/88b3d281a36afdbee741122f2a0ffc60.jpg"),
             ContentModel("https://i.pinimg.com/1200x/56/5e/e2/565ee2e795b7b88a53464b901ab46c79.jpg"),
+        )
+
+        val favoriteContents = listOf(
+            ContentModel("https://i.pinimg.com/1200x/be/a8/22/bea822677ebd5438e819ae9c3b3b9fe3.jpg"),
+            ContentModel("https://i.pinimg.com/736x/56/42/f4/5642f417910af4d566a9250f4155fe50.jpg"),
+            ContentModel("https://i.pinimg.com/736x/29/ae/64/29ae649a52a766bdc00beff61f34cee9.jpg"),
+            ContentModel("https://i.pinimg.com/736x/14/74/8a/14748a7f2b5e788d5f0b3b2341faa4b3.jpg"),
+            ContentModel("https://i.pinimg.com/736x/7f/46/3b/7f463bf7ef983693be1da88937d7b7dc.jpg"),
+            ContentModel("https://i.pinimg.com/736x/93/c2/bf/93c2bf416aefb4bcb64f5eb2275f4006.jpg"),
+            ContentModel("https://i.pinimg.com/736x/cf/5e/64/cf5e64ffa1293cbba6e46e2e08adebf6.jpg")
         )
     }
 }

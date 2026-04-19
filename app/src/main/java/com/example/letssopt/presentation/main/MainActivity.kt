@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.presentation.archive.ArchiveRoute
+import com.example.letssopt.presentation.archive.ArchiveViewModel
 import com.example.letssopt.presentation.home.HomeRoute
 import com.example.letssopt.presentation.home.HomeViewModel
 import com.example.letssopt.presentation.main.bottombar.MainBottomBar
@@ -26,6 +27,7 @@ import com.example.letssopt.presentation.webtoon.WebtoonRoute
 
 class MainActivity : ComponentActivity() {
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val archiveViewModel by viewModels<ArchiveViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,10 @@ class MainActivity : ComponentActivity() {
                         MainTab.PURCHASE -> PurchaseRoute(Modifier.padding(innerPadding))
                         MainTab.WEBTOON -> WebtoonRoute(Modifier.padding(innerPadding))
                         MainTab.SEARCH -> SearchRoute(Modifier.padding(innerPadding))
-                        MainTab.ARCHIVE -> ArchiveRoute(Modifier.padding(innerPadding))
+                        MainTab.ARCHIVE -> ArchiveRoute(
+                            viewModel = archiveViewModel,
+                            modifier = Modifier.padding(innerPadding),
+                        )
                     }
                 }
             }
