@@ -1,6 +1,5 @@
 package com.example.letssopt.presentation.auth.register
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -37,8 +36,6 @@ import com.example.letssopt.core.designsystem.component.TextFieldDefault
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.util.HandleUiEffects
 import com.example.letssopt.presentation.auth.component.LogoText
-import com.example.letssopt.presentation.auth.util.EMAIL_KEY
-import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
 
 class RegisterActivity : ComponentActivity() {
     private val viewModel by viewModels<RegisterViewModel>()
@@ -52,13 +49,7 @@ class RegisterActivity : ComponentActivity() {
 
                 HandleUiEffects(viewModel.uiEffect) { effect ->
                     when (effect) {
-                        is RegisterUiEffect.BackToLogin -> {
-                            val intent = Intent()
-                                .putExtra(EMAIL_KEY, effect.email)
-                                .putExtra(PASSWORD_KEY, effect.password)
-                            setResult(RESULT_OK, intent)
-                            finish()
-                        }
+                        RegisterUiEffect.BackToLogin -> finish()
 
                         is RegisterUiEffect.ShowToast -> Toast.makeText(
                             context,

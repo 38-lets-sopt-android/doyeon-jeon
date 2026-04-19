@@ -1,59 +1,50 @@
 package com.example.letssopt.presentation.auth.login
 
-import android.app.Activity.RESULT_OK
-import androidx.activity.result.ActivityResult
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.presentation.auth.util.EMAIL_KEY
-import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
+import com.example.letssopt.data.local.AuthException
+import com.example.letssopt.data.local.AuthRepository
 
-private enum class LoginValidationError(val message: String) {
-    EMAIL_NOT_FOUND("존재하지 않는 이메일입니다"),
-    PASSWORD_MISMATCH("비밀번호가 올바르지 않습니다"),
-}
-
-class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()) {
+class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) {
     val emailState = TextFieldState()
     val passwordState = TextFieldState()
 
     val loginEnabled by derivedStateOf { emailState.text.isNotBlank() && passwordState.text.isNotBlank() }
 
     fun onLoginClick() {
-        val error = validateLoginInputs()
+        val emailText = emailState.text.toString()
+        val passwordText = passwordState.text.toString()
 
-        if (error != null) {
-            return sendEffect(LoginUiEffect.ShowToast(error.message))
-        }
+        handleLogin(emailText, passwordText)
+    }
 
-        sendEffect(LoginUiEffect.ShowToast("로그인에 성공했습니다"))
-        sendEffect(LoginUiEffect.NavigateToMain)
+    private fun handleLogin(
+        emailText: String,
+        passwordText: String,
+    ) {
+        AuthRepository.login(emailText, passwordText)
+            .onSuccess {
+                sendEffect(LoginUiEffect.ShowToast("로그인에 성공했습니다"))
+                sendEffect(LoginUiEffect.NavigateToMain)
+            }
+            .onFailure { error ->
+                val message = if (error is AuthException) {
+                    when (error) {
+                        is AuthException.EmailNotFound -> "존재하지 않는 이메일입니다"
+                        is AuthException.NoAccountFound -> "회원가입을 먼저 수행해주세요"
+                        is AuthException.PasswordMismatch -> "비밀번호가 올바르지 않습니다"
+                    }
+                } else "로그인에 실패했습니다"
+                sendEffect(LoginUiEffect.ShowToast(message))
+            }
     }
 
     fun onRegisterClick() {
         emailState.clearText()
         passwordState.clearText()
         sendEffect(LoginUiEffect.NavigateToRegister)
-    }
-
-    fun handleRegisterResult(result: ActivityResult) {
-        if (result.resultCode == RESULT_OK) {
-            val email = result.data?.getStringExtra(EMAIL_KEY) ?: ""
-            val password = result.data?.getStringExtra(PASSWORD_KEY) ?: ""
-            updateState { copy(resultEmail = email, resultPassword = password) }
-        }
-    }
-
-    private fun validateLoginInputs(): LoginValidationError? {
-        val emailText = emailState.text.toString()
-        val passwordText = passwordState.text.toString()
-
-        return when {
-            emailText != currentState.resultEmail -> LoginValidationError.EMAIL_NOT_FOUND
-            passwordText != currentState.resultPassword -> LoginValidationError.PASSWORD_MISMATCH
-            else -> null
-        }
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.core.base.BaseViewModel
+import com.example.letssopt.data.local.AuthRepository
 
 private enum class RegisterValidationError(val message: String) {
     EMAIL_INVALID("올바른 이메일 형식을 입력해주세요"),
@@ -32,8 +33,21 @@ class RegisterViewModel : BaseViewModel<RegisterUiState, RegisterUiEffect>(Regis
             return sendEffect(RegisterUiEffect.ShowToast(error.message))
         }
 
-        sendEffect(RegisterUiEffect.ShowToast("회원가입에 성공했습니다"))
-        sendEffect(RegisterUiEffect.BackToLogin(emailText, passwordText))
+        handleRegister(emailText, passwordText)
+    }
+
+    private fun handleRegister(
+        emailText: String,
+        passwordText: String,
+    ) {
+        AuthRepository.register(emailText, passwordText)
+            .onSuccess {
+                sendEffect(RegisterUiEffect.ShowToast("회원가입에 성공했습니다"))
+                sendEffect(RegisterUiEffect.BackToLogin)
+            }
+            .onFailure {
+                sendEffect(RegisterUiEffect.ShowToast("회원가입에 실패했습니다."))
+            }
     }
 
     private fun validateRegisterInputs(

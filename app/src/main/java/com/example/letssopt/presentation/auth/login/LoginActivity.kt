@@ -46,11 +46,6 @@ import com.example.letssopt.presentation.main.MainActivity
 
 class LoginActivity : ComponentActivity() {
     private val viewModel by viewModels<LoginViewModel>()
-    private val registerLauncher = registerForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        viewModel.handleRegisterResult(result)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +59,7 @@ class LoginActivity : ComponentActivity() {
                     when (effect) {
                         LoginUiEffect.NavigateToRegister -> {
                             val intent = Intent(context, RegisterActivity::class.java)
-                            registerLauncher.launch(intent)
+                            context.startActivity(intent)
                         }
 
                         LoginUiEffect.NavigateToMain -> {
