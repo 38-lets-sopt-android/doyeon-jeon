@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.home.component
 
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +27,9 @@ fun NewContentsSection(
     contents: List<ContentModel>,
     modifier: Modifier = Modifier,
 ) {
+    val state = rememberLazyListState()
+    val flingBehavior = rememberSnapFlingBehavior(lazyListState = state)
+
     Column(
         modifier = modifier,
     ) {
@@ -47,6 +52,8 @@ fun NewContentsSection(
         Spacer(Modifier.height(24.dp))
 
         LazyRow(
+            state = state,
+            flingBehavior = flingBehavior,
             contentPadding = PaddingValues(horizontal = 19.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
