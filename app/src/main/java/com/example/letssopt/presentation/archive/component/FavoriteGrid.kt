@@ -42,6 +42,7 @@ fun FavoriteGrid(
             FavoriteItem(
                 thumbnailUrl = content.thumbnailUrl,
                 onDeleteClick = { onDeleteClick(content) },
+                modifier = Modifier.animateItem()
             )
         }
     }
