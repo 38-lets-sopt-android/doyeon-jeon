@@ -1,4 +1,4 @@
-package com.example.letssopt.core.base
+package com.example.letssopt.core.designsystem.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

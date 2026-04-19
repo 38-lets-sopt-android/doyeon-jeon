@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.core.base.BaseAsyncImage
+import com.example.letssopt.core.designsystem.component.BaseAsyncImage
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.domain.model.ContentModel
 
