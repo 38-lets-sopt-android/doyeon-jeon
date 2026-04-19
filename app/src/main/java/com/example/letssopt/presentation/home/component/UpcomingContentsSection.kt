@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.component.BaseAsyncImage
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.core.extension.verticalThumbnail
+import com.example.letssopt.core.common.extension.verticalThumbnail
 import com.example.letssopt.domain.model.ContentModel
 
 @Composable

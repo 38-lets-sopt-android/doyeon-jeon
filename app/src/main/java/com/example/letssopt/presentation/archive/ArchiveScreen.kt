@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.domain.model.ContentModel
 import com.example.letssopt.presentation.archive.component.FavoriteGrid
 

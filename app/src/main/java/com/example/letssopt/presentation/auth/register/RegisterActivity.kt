@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.component.ButtonPrimary
 import com.example.letssopt.core.designsystem.component.TextFieldDefault
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.presentation.auth.component.LogoText
 
 class RegisterActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package com.example.letssopt.core.util
+package com.example.letssopt.core.common.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

@@ -1,4 +1,4 @@
-package com.example.letssopt.core.extension
+package com.example.letssopt.core.common.extension
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
