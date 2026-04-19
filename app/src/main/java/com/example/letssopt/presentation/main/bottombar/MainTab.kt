@@ -7,7 +7,7 @@ enum class MainTab (
     val label: String,
     @param:DrawableRes val iconRes: Int,
 ) {
-    MAIN(
+    HOME(
         label = "메인",
         iconRes = R.drawable.ic_bottom_bar_main_24,
     ),
