@@ -17,6 +17,7 @@ class LETSSOPTTypography(
     val h1: TextStyle,
     val h2: TextStyle,
     val body: TextStyle,
+    val body2: TextStyle,
     val caption: TextStyle,
     val button: TextStyle,
 )
@@ -51,6 +52,7 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
     h1 = BoldStyle.copy(fontSize = 24.sp),
     h2 = BoldStyle.copy(fontSize = 20.sp),
     body = RegularStyle.copy(fontSize = 16.sp),
+    body2 = RegularStyle.copy(fontSize = 12.sp),
     caption = RegularStyle.copy(fontSize = 13.sp),
     button = BoldStyle.copy(fontSize = 16.sp),
 )
