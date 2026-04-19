@@ -2,11 +2,11 @@ package com.example.letssopt.presentation.auth.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,12 +22,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -35,85 +33,51 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.component.ButtonPrimary
-import com.example.letssopt.presentation.auth.component.LogoText
 import com.example.letssopt.core.designsystem.component.TextFieldDefault
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.presentation.auth.component.LogoText
 import com.example.letssopt.presentation.auth.util.EMAIL_KEY
 import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
-import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 class RegisterActivity : ComponentActivity() {
+    private val viewModel by viewModels<RegisterViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val emailState = rememberTextFieldState()
-            val passwordState = rememberTextFieldState()
-            val passwordConfirmState = rememberTextFieldState()
-
-            val registerEnabled by remember {
-                derivedStateOf {
-                    emailState.text.isNotBlank() && passwordState.text.isNotBlank() && passwordConfirmState.text.isNotBlank()
-                }
-            }
-
             LETSSOPTTheme {
+                val context = LocalContext.current
+
+                HandleUiEffects(viewModel.uiEffect) { effect ->
+                    when (effect) {
+                        is RegisterUiEffect.BackToLogin -> {
+                            val intent = Intent()
+                                .putExtra(EMAIL_KEY, effect.email)
+                                .putExtra(PASSWORD_KEY, effect.password)
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        }
+
+                        is RegisterUiEffect.ShowToast -> Toast.makeText(
+                            context,
+                            effect.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+
                 RegisterScreen(
-                    emailState = emailState,
-                    passwordState = passwordState,
-                    passwordConfirmState = passwordConfirmState,
-                    registerEnabled = registerEnabled,
-                    onRegisterClick = {
-                        onRegisterClick(
-                            emailText = emailState.text.toString(),
-                            passwordText = passwordState.text.toString(),
-                            passwordCheckText = passwordConfirmState.text.toString()
-                        )
-                    },
+                    emailState = viewModel.emailState,
+                    passwordState = viewModel.passwordState,
+                    passwordConfirmState = viewModel.passwordConfirmState,
+                    registerEnabled = viewModel.registerEnabled,
+                    onRegisterClick = viewModel::onRegisterClick,
                 )
             }
         }
-    }
-
-    private enum class RegisterValidationError(val message: String) {
-        EMAIL_INVALID("올바른 이메일 형식을 입력해주세요"),
-        PASSWORD_INVALID_LENGTH("비밀번호는 8~12자로 입력해주세요"),
-        PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다")
-    }
-
-    private fun validateRegisterInputs(
-        emailText: String,
-        passwordText: String,
-        passwordCheckText: String,
-    ): RegisterValidationError? {
-        return when {
-            !Patterns.EMAIL_ADDRESS.matcher(emailText)
-                .matches() -> RegisterValidationError.EMAIL_INVALID
-
-            passwordText.length !in 8..12 -> RegisterValidationError.PASSWORD_INVALID_LENGTH
-            passwordText != passwordCheckText -> RegisterValidationError.PASSWORD_MISMATCH
-            else -> null
-        }
-    }
-
-    private fun onRegisterClick(
-        emailText: String,
-        passwordText: String,
-        passwordCheckText: String,
-    ) {
-        val error = validateRegisterInputs(emailText, passwordText, passwordCheckText)
-        if (error != null) {
-            Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        Toast.makeText(this, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-        val intent = Intent()
-            .putExtra(EMAIL_KEY, emailText)
-            .putExtra(PASSWORD_KEY, passwordText)
-
-        setResult(RESULT_OK, intent)
-        finish()
     }
 }
 
