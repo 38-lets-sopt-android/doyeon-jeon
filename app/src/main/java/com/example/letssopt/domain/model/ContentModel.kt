@@ -21,10 +21,10 @@ data class ContentModel(
         )
 
         val upcomingContents = listOf(
-            ContentModel("https://i.pinimg.com/736x/6b/b4/b6/6bb4b6ca07aabd92cf6a4baeb5260b7c.jpg"),
-            ContentModel("https://i.pinimg.com/1200x/40/d2/e4/40d2e40f3fc376e47c53a17897e0ba31.jpg"),
-            ContentModel("https://i.pinimg.com/736x/88/b3/d2/88b3d281a36afdbee741122f2a0ffc60.jpg"),
+            ContentModel("https://i.pinimg.com/736x/c9/48/2f/c9482f3b40060bf6b95a509978656166.jpg"),
             ContentModel("https://i.pinimg.com/1200x/56/5e/e2/565ee2e795b7b88a53464b901ab46c79.jpg"),
+            ContentModel("https://i.pinimg.com/1200x/c9/5c/9b/c95c9be15cb506538625cfdd83f6868e.jpg"),
+            ContentModel("https://i.pinimg.com/736x/88/b3/d2/88b3d281a36afdbee741122f2a0ffc60.jpg"),
         )
 
         val favoriteContents = listOf(
