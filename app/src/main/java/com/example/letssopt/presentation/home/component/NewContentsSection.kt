@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -27,7 +26,13 @@ fun NewContentsSection(
     contents: List<ContentModel>,
     modifier: Modifier = Modifier,
 ) {
-    val state = rememberLazyListState()
+    if (contents.isEmpty()) return
+
+    val infiniteCount = Int.MAX_VALUE
+    val contentsSize = contents.size
+    val startIndex = infiniteCount / 2 / contentsSize * contentsSize
+
+    val state = rememberLazyListState(initialFirstVisibleItemIndex = startIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = state)
 
     Column(
@@ -57,7 +62,8 @@ fun NewContentsSection(
             contentPadding = PaddingValues(horizontal = 19.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            items(items = contents, key = { it.id }) { content ->
+            items(infiniteCount) {index ->
+                val content = contents[index % contentsSize]
                 BaseAsyncImage(
                     imageUrl = content.thumbnailUrl,
                     modifier = Modifier
