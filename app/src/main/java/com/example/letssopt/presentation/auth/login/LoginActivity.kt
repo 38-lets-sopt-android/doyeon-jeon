@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -19,44 +20,36 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.presentation.main.MainActivity
-import com.example.letssopt.presentation.auth.register.RegisterActivity
 import com.example.letssopt.core.designsystem.component.ButtonPrimary
-import com.example.letssopt.presentation.auth.component.LogoText
 import com.example.letssopt.core.designsystem.component.TextFieldDefault
-import com.example.letssopt.presentation.auth.util.EMAIL_KEY
-import com.example.letssopt.presentation.auth.util.PASSWORD_KEY
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.presentation.auth.component.LogoText
+import com.example.letssopt.presentation.auth.register.RegisterActivity
+import com.example.letssopt.presentation.main.MainActivity
 
 class LoginActivity : ComponentActivity() {
-    private var resultEmail = ""
-    private var resultPassword = ""
-
+    private val viewModel by viewModels<LoginViewModel>()
     private val registerLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+        contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            resultEmail = result.data?.getStringExtra(EMAIL_KEY) ?: ""
-            resultPassword = result.data?.getStringExtra(PASSWORD_KEY) ?: ""
-        }
+        viewModel.handleRegisterResult(result)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,67 +57,40 @@ class LoginActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val emailState = rememberTextFieldState()
-            val passwordState = rememberTextFieldState()
-
-            val loginEnabled by remember {
-                derivedStateOf { emailState.text.isNotBlank() && passwordState.text.isNotBlank() }
-            }
-
             LETSSOPTTheme {
+                val context = LocalContext.current
+
+                HandleUiEffects(viewModel.uiEffect) { effect ->
+                    when (effect) {
+                        LoginUiEffect.NavigateToRegister -> {
+                            val intent = Intent(context, RegisterActivity::class.java)
+                            registerLauncher.launch(intent)
+                        }
+
+                        LoginUiEffect.NavigateToMain -> {
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            context.startActivity(intent)
+                        }
+
+                        is LoginUiEffect.ShowToast -> Toast.makeText(
+                            context,
+                            effect.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
                 LoginScreen(
-                    emailState = emailState,
-                    passwordState = passwordState,
-                    loginEnabled = loginEnabled,
-                    onLoginClick = {
-                        onLoginClick(
-                            emailText = emailState.text.toString(),
-                            passwordText = passwordState.text.toString(),
-                        )
-                    },
-                    onRegisterClick = ::onRegisterClick,
+                    emailState = viewModel.emailState,
+                    passwordState = viewModel.passwordState,
+                    loginEnabled = viewModel.loginEnabled,
+                    onLoginClick = viewModel::onLoginClick,
+                    onRegisterClick = viewModel::onRegisterClick,
                 )
             }
         }
-    }
-
-    private fun onRegisterClick() {
-        val intent = Intent(this, RegisterActivity::class.java)
-        registerLauncher.launch(intent)
-    }
-
-    private enum class LoginValidationError(val message: String) {
-        EMAIL_NOT_FOUND("존재하지 않는 이메일입니다"),
-        PASSWORD_MISMATCH("비밀번호가 올바르지 않습니다"),
-    }
-
-    private fun validateLoginInputs(
-        emailText: String,
-        passwordText: String,
-    ): LoginValidationError? {
-        return when {
-            emailText != resultEmail -> LoginValidationError.EMAIL_NOT_FOUND
-            passwordText != resultPassword -> LoginValidationError.PASSWORD_MISMATCH
-            else -> null
-        }
-    }
-
-    private fun onLoginClick(
-        emailText: String,
-        passwordText: String,
-    ) {
-        val error = validateLoginInputs(emailText, passwordText)
-        if (error != null) {
-            Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(intent)
     }
 }
 
@@ -224,11 +190,7 @@ fun LoginScreen(
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
-                        onClick = {
-                            emailState.clearText()
-                            passwordState.clearText()
-                            onRegisterClick()
-                        },
+                        onClick = onRegisterClick,
                     )
                     .padding(top = 20.dp, bottom = 12.dp),
                 color = LETSSOPTTheme.colors.textSecondary,
