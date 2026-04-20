@@ -1,7 +1,6 @@
 package com.example.letssopt.presentation.auth.register
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,10 +32,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
+import com.example.letssopt.core.common.extension.toast
+import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.core.designsystem.component.ButtonPrimary
 import com.example.letssopt.core.designsystem.component.TextFieldDefault
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.presentation.auth.component.LogoText
 
 class RegisterActivity : ComponentActivity() {
@@ -53,11 +53,7 @@ class RegisterActivity : ComponentActivity() {
                     when (effect) {
                         RegisterUiEffect.BackToLogin -> finish()
 
-                        is RegisterUiEffect.ShowToast -> Toast.makeText(
-                            context,
-                            effect.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        is RegisterUiEffect.ShowToast -> context.toast(effect.message)
                     }
                 }
 

@@ -1,6 +1,5 @@
 package com.example.letssopt.presentation.archive
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -14,8 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.letssopt.R
-import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.common.extension.toast
 import com.example.letssopt.core.common.util.HandleUiEffects
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.domain.model.ContentModel
 import com.example.letssopt.presentation.archive.component.FavoriteGrid
 
@@ -29,9 +29,7 @@ fun ArchiveRoute(
 
     HandleUiEffects(viewModel.uiEffect) { effect ->
         when (effect) {
-            is ArchiveUiEffect.ShowToast -> Toast.makeText(
-                context, effect.message, Toast.LENGTH_SHORT
-            ).show()
+            is ArchiveUiEffect.ShowToast -> context.toast(effect.message)
         }
     }
 
