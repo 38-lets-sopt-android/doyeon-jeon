@@ -1,6 +1,7 @@
 package com.example.letssopt.presentation.main.bottombar
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +44,7 @@ fun MainBottomBar(
     ) {
         MainTab.entries.forEach { tab ->
             BottomBarItem(
-                label = tab.label,
+                labelRes = tab.labelRes,
                 iconRes = tab.iconRes,
                 selected = tab == currentTab,
                 onClick = { onClick(tab) },
@@ -54,12 +56,13 @@ fun MainBottomBar(
 
 @Composable
 private fun BottomBarItem(
-    label: String,
+    @StringRes labelRes: Int,
     @DrawableRes iconRes: Int,
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val label = stringResource(labelRes)
     val color = if (selected) LETSSOPTTheme.colors.white else LETSSOPTTheme.colors.disabled
 
     Column(

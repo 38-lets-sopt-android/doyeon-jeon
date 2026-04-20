@@ -1,7 +1,47 @@
 <resources>
     <string name="app_name">LETSSOPT</string>
+
+    <!--  Activity  -->
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="shared_preference_file_key">shared preference file key</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+    <!--  Preference Key  -->
+    <string name="shared_preference_file_key" translatable="false">shared preference file key</string>
+
+    <!--  Bottom Bar  -->
+    <string name="bottombar_main">메인</string>
+    <string name="bottombar_purchase">개별 구매</string>
+    <string name="bottombar_webtoon">웹툰</string>
+    <string name="bottombar_search">찾기</string>
+    <string name="bottombar_archive">보관함</string>
+
+    <!--  Common  -->
+    <string name="watcha">watcha</string>
+    <string name="action_more">더보기</string>
+    <string name="placeholder_email">이메일 주소를 입력하세요</string>
+    <string name="label_email">이메일</string>
+    <string name="placeholder_password">비밀번호를 입력하세요</string>
+    <string name="label_password">비밀번호</string>
+
+    <!--  Login  -->
+    <string name="login_btn">로그인</string>
+    <string name="login_title">이메일로 로그인</string>
+    <string name="login_btn_register">아직 계정이 없으신가요?  회원가입</string>
+
+    <!--  Register  -->
+    <string name="register_btn">회원가입</string>
+    <string name="register_title">회원가입</string>
+    <string name="register_placeholder_passwordconfirm">비밀번호를 다시 입력하세요</string>
+    <string name="register_label_passwordconfirm">비밀번호 확인</string>
+
+    <!--  Home  -->
+    <string name="home_title_newcontents">방금 막 도착한 신상 컨텐츠</string>
+    <string name="home_description_newcontents">예능부터 드라마까지!</string>
+    <string name="home_title_upcomingcontents">공개 예정 콘텐츠</string>
+    <string name="home_title_watchparty">왓챠 파티</string>
+    <string name="home_title_whatgorithm">예능부터 드라마까지!</string>
+
+    <!--  Archive  -->
+    <string name="archive_title">찜한 목록</string>
 </resources>

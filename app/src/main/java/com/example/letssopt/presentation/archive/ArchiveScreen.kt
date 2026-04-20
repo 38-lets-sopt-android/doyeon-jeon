@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.domain.model.ContentModel
@@ -52,7 +54,7 @@ private fun ArchiveScreen(
         Spacer(Modifier.height(70.dp))
 
         Text(
-            text = "찜한 목록",
+            text = stringResource(R.string.archive_title),
             color = LETSSOPTTheme.colors.white,
             style = LETSSOPTTheme.typography.h3,
         )

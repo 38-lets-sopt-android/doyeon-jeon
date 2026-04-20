@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,13 +52,13 @@ fun WatchPartySection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "왓챠 파티",
+                text = stringResource(R.string.home_title_watchparty),
                 color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.h3,
             )
 
             Text(
-                text = "더보기",
+                text = stringResource(R.string.action_more),
                 color = LETSSOPTTheme.colors.textSecondary,
                 style = LETSSOPTTheme.typography.cap1,
             )

@@ -27,10 +27,12 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.component.ButtonPrimary
 import com.example.letssopt.core.designsystem.component.TextFieldDefault
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
@@ -91,7 +93,7 @@ fun RegisterScreen(
             .imePadding(),
         bottomBar = {
             ButtonPrimary(
-                text = "회원가입",
+                text = stringResource(R.string.register_btn),
                 onClick = {
                     keyboardController?.hide()
                     focusManager.clearFocus()
@@ -118,7 +120,7 @@ fun RegisterScreen(
             )
 
             Text(
-                text = "회원가입",
+                text = stringResource(R.string.register_title),
                 modifier = Modifier.align(Alignment.Start),
                 color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.h2,
@@ -128,8 +130,8 @@ fun RegisterScreen(
 
             TextFieldDefault(
                 state = emailState,
-                placeholder = "이메일 주소를 입력하세요",
-                label = "이메일",
+                placeholder = stringResource(R.string.placeholder_email),
+                label = stringResource(R.string.label_email),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
                 ),
@@ -142,8 +144,8 @@ fun RegisterScreen(
 
             TextFieldDefault(
                 state = passwordState,
-                placeholder = "비밀번호를 입력하세요",
-                label = "비밀번호",
+                placeholder = stringResource(R.string.placeholder_password),
+                label = stringResource(R.string.label_password),
                 isPassword = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Password
@@ -157,8 +159,8 @@ fun RegisterScreen(
 
             TextFieldDefault(
                 state = passwordConfirmState,
-                placeholder = "비밀번호를 다시 입력하세요",
-                label = "비밀번호 확인",
+                placeholder = stringResource(R.string.register_placeholder_passwordconfirm),
+                label = stringResource(R.string.register_label_passwordconfirm),
                 isPassword = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done, keyboardType = KeyboardType.Password

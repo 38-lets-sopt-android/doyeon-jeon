@@ -31,10 +31,12 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.component.ButtonPrimary
 import com.example.letssopt.core.designsystem.component.TextFieldDefault
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
@@ -107,7 +109,7 @@ fun LoginScreen(
             .imePadding(),
         bottomBar = {
             ButtonPrimary(
-                text = "로그인",
+                text = stringResource(R.string.login_btn),
                 onClick = {
                     keyboardController?.hide()
                     focusManager.clearFocus()
@@ -137,7 +139,7 @@ fun LoginScreen(
                 )
 
                 Text(
-                    text = "이메일로 로그인",
+                    text = stringResource(R.string.login_title),
                     modifier = Modifier.align(Alignment.Start),
                     color = LETSSOPTTheme.colors.white,
                     style = LETSSOPTTheme.typography.h2,
@@ -147,8 +149,8 @@ fun LoginScreen(
 
                 TextFieldDefault(
                     state = emailState,
-                    placeholder = "이메일 주소를 입력하세요",
-                    label = "이메일",
+                    placeholder = stringResource(R.string.placeholder_email),
+                    label = stringResource(R.string.label_email),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.Email
@@ -162,8 +164,8 @@ fun LoginScreen(
 
                 TextFieldDefault(
                     state = passwordState,
-                    placeholder = "비밀번호를 입력하세요",
-                    label = "비밀번호",
+                    placeholder = stringResource(R.string.placeholder_password),
+                    label = stringResource(R.string.label_password),
                     isPassword = true,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
@@ -179,7 +181,7 @@ fun LoginScreen(
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = "아직 계정이 없으신가요?  회원가입",
+                text = stringResource(R.string.login_btn_register),
                 modifier = Modifier
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },

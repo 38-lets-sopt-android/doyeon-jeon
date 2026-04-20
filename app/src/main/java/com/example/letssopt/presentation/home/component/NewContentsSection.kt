@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.component.BaseAsyncImage
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.domain.model.ContentModel
@@ -39,7 +41,7 @@ fun NewContentsSection(
         modifier = modifier,
     ) {
         Text(
-            text = "방금 막 도착한 신상 컨텐츠",
+            text = stringResource(R.string.home_title_newcontents),
             modifier = Modifier.padding(start = 19.dp),
             color = LETSSOPTTheme.colors.white,
             style = LETSSOPTTheme.typography.h3,
@@ -48,7 +50,7 @@ fun NewContentsSection(
         Spacer(Modifier.height(4.dp))
 
         Text(
-            text = "예능부터 드라마까지!",
+            text = stringResource(R.string.home_description_newcontents),
             modifier = Modifier.padding(start = 19.dp),
             color = LETSSOPTTheme.colors.textSecondary,
             style = LETSSOPTTheme.typography.sh1,

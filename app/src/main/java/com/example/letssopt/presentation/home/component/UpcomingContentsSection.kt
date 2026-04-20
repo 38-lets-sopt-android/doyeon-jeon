@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.component.BaseAsyncImage
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.common.extension.verticalThumbnail
@@ -36,13 +38,13 @@ fun UpcomingContentsSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "공개 예정 콘텐츠",
+                text = stringResource(R.string.home_title_upcomingcontents),
                 color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.h3,
             )
 
             Text(
-                text = "더보기",
+                text = stringResource(R.string.action_more),
                 color = LETSSOPTTheme.colors.textSecondary,
                 style = LETSSOPTTheme.typography.cap1,
             )

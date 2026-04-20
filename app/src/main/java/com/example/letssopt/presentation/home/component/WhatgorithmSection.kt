@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,13 +52,13 @@ fun WhatgorithmSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "예능부터 드라마까지!",
+                text = stringResource(R.string.home_title_whatgorithm),
                 color = LETSSOPTTheme.colors.textSecondary,
                 style = LETSSOPTTheme.typography.h3,
             )
 
             Text(
-                text = "더보기",
+                text = stringResource(R.string.action_more),
                 color = LETSSOPTTheme.colors.textSecondary,
                 style = LETSSOPTTheme.typography.cap1,
             )
