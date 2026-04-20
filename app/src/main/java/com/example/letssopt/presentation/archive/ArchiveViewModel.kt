@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.archive
 
+import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
 import com.example.letssopt.domain.model.ContentModel
 
@@ -17,6 +18,6 @@ class ArchiveViewModel: BaseViewModel<ArchiveUiState, ArchiveUiEffect>(ArchiveUi
             it.id == content.id
         }
         updateState { copy(favoriteContents = deletedContents) }
-        sendEffect(ArchiveUiEffect.ShowToast("찜한 목록에서 삭제 되었어요"))
+        sendEffect(ArchiveUiEffect.ShowToast(R.string.archive_msg_success_delete))
     }
 }

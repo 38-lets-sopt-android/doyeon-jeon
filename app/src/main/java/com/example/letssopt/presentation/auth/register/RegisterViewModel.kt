@@ -1,16 +1,18 @@
 package com.example.letssopt.presentation.auth.register
 
 import android.util.Patterns
+import androidx.annotation.StringRes
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
 import com.example.letssopt.data.local.AuthRepository
 
-private enum class RegisterValidationError(val message: String) {
-    EMAIL_INVALID("올바른 이메일 형식을 입력해주세요"),
-    PASSWORD_INVALID_LENGTH("비밀번호는 8~12자로 입력해주세요"),
-    PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다")
+private enum class RegisterValidationError(@param:StringRes val message: Int) {
+    EMAIL_INVALID(R.string.register_msg_fail_emailinvalid),
+    PASSWORD_INVALID_LENGTH(R.string.register_msg_fail_passwordlength),
+    PASSWORD_MISMATCH(R.string.register_msg_fail_passwordmismatch)
 }
 
 
@@ -42,11 +44,11 @@ class RegisterViewModel : BaseViewModel<RegisterUiState, RegisterUiEffect>(Regis
     ) {
         AuthRepository.register(emailText, passwordText)
             .onSuccess {
-                sendEffect(RegisterUiEffect.ShowToast("회원가입에 성공했습니다"))
+                sendEffect(RegisterUiEffect.ShowToast(R.string.register_msg_success))
                 sendEffect(RegisterUiEffect.BackToLogin)
             }
             .onFailure {
-                sendEffect(RegisterUiEffect.ShowToast("회원가입에 실패했습니다."))
+                sendEffect(RegisterUiEffect.ShowToast(R.string.register_msg_fail))
             }
     }
 

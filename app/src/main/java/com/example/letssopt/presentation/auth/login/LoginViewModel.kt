@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
 import com.example.letssopt.data.local.AuthException
 import com.example.letssopt.data.local.AuthRepository
@@ -27,17 +28,17 @@ class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) 
     ) {
         AuthRepository.login(emailText, passwordText)
             .onSuccess {
-                sendEffect(LoginUiEffect.ShowToast("로그인에 성공했습니다"))
+                sendEffect(LoginUiEffect.ShowToast(R.string.login_msg_success))
                 sendEffect(LoginUiEffect.NavigateToMain)
             }
             .onFailure { error ->
                 val message = if (error is AuthException) {
                     when (error) {
-                        is AuthException.EmailNotFound -> "존재하지 않는 이메일입니다"
-                        is AuthException.NoAccountFound -> "회원가입을 먼저 수행해주세요"
-                        is AuthException.PasswordMismatch -> "비밀번호가 올바르지 않습니다"
+                        is AuthException.EmailNotFound -> R.string.login_msg_fail_emailnotfound
+                        is AuthException.NoAccountFound -> R.string.login_msg_fail_needregister
+                        is AuthException.PasswordMismatch -> R.string.login_msg_fail_passwordmismatch
                     }
-                } else "로그인에 실패했습니다"
+                } else R.string.login_msg_fail
                 sendEffect(LoginUiEffect.ShowToast(message))
             }
     }

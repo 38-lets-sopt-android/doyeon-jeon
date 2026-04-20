@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.archive
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import com.example.letssopt.core.base.UiEffect
 import com.example.letssopt.core.base.UiState
@@ -11,5 +12,5 @@ data class ArchiveUiState(
 ): UiState
 
 sealed interface ArchiveUiEffect: UiEffect {
-    data class ShowToast(val message: String): ArchiveUiEffect
+    data class ShowToast(@param:StringRes val message: Int): ArchiveUiEffect
 }
