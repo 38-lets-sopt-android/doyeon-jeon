@@ -28,6 +28,15 @@ data class ContentModel(
             ContentModel("https://i.pinimg.com/736x/88/b3/d2/88b3d281a36afdbee741122f2a0ffc60.jpg"),
         )
 
+        val purchaseContents = listOf(
+            ContentModel("https://i.pinimg.com/1200x/be/a8/22/bea822677ebd5438e819ae9c3b3b9fe3.jpg", title = "인터스텔라"),
+            ContentModel("https://i.pinimg.com/736x/56/42/f4/5642f417910af4d566a9250f4155fe50.jpg", title = "기생충"),
+            ContentModel("https://i.pinimg.com/736x/29/ae/64/29ae649a52a766bdc00beff61f34cee9.jpg", title = "올드보이"),
+            ContentModel("https://i.pinimg.com/736x/14/74/8a/14748a7f2b5e788d5f0b3b2341faa4b3.jpg", title = "매트릭스"),
+            ContentModel("https://i.pinimg.com/736x/7f/46/3b/7f463bf7ef983693be1da88937d7b7dc.jpg", title = "어벤져스"),
+            ContentModel("https://i.pinimg.com/736x/93/c2/bf/93c2bf416aefb4bcb64f5eb2275f4006.jpg", title = "듄"),
+        )
+
         val favoriteContents = listOf(
             ContentModel("https://i.pinimg.com/1200x/be/a8/22/bea822677ebd5438e819ae9c3b3b9fe3.jpg"),
             ContentModel("https://i.pinimg.com/736x/56/42/f4/5642f417910af4d566a9250f4155fe50.jpg"),
