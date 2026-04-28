@@ -5,61 +5,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.archive.ArchiveRoute
-import com.example.letssopt.presentation.archive.ArchiveViewModel
-import com.example.letssopt.presentation.home.HomeRoute
-import com.example.letssopt.presentation.home.HomeViewModel
-import com.example.letssopt.presentation.main.bottombar.MainBottomBar
-import com.example.letssopt.presentation.main.bottombar.MainTab
-import com.example.letssopt.presentation.purchase.PurchaseRoute
-import com.example.letssopt.presentation.search.SearchRoute
-import com.example.letssopt.presentation.webtoon.WebtoonRoute
+import com.example.letssopt.presentation.main.navigation.rememberLETSSOPTNavigator
 
 class MainActivity : ComponentActivity() {
-    private val homeViewModel by viewModels<HomeViewModel>()
-    private val archiveViewModel by viewModels<ArchiveViewModel>()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navigator = rememberLETSSOPTNavigator()
+            val startDestination by viewModel.startDestination.collectAsStateWithLifecycle()
+
             LETSSOPTTheme {
-                var currentTab by remember { mutableStateOf(MainTab.HOME) }
-
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        MainBottomBar(
-                            currentTab = currentTab,
-                            onClick = { currentTab = it },
-                            modifier = Modifier.navigationBarsPadding()
-                        )
-                    }
-                ) { innerPadding ->
-                    when (currentTab) {
-                        MainTab.HOME -> HomeRoute(
-                            viewModel = homeViewModel,
-                            modifier = Modifier.padding(innerPadding),
-                        )
-
-                        MainTab.PURCHASE -> PurchaseRoute(Modifier.padding(innerPadding))
-                        MainTab.WEBTOON -> WebtoonRoute(Modifier.padding(innerPadding))
-                        MainTab.SEARCH -> SearchRoute(Modifier.padding(innerPadding))
-                        MainTab.ARCHIVE -> ArchiveRoute(
-                            viewModel = archiveViewModel,
-                            modifier = Modifier.padding(innerPadding),
-                        )
-                    }
+                startDestination?.let { dest ->
+                    MainScreen(
+                        startDestination = dest,
+                        navigator = navigator,
+                    )
                 }
             }
         }
