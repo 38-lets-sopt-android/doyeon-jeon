@@ -59,7 +59,7 @@ fun ContentGridSection(
         }
 
         items(items = contents, key = { it.id }) { content ->
-            FavoriteItem(
+            GridItem(
                 title = content.title,
                 thumbnailUrl = content.thumbnailUrl,
                 onDeleteClick = onDeleteClick?.let { { it(content) } },
@@ -71,7 +71,7 @@ fun ContentGridSection(
 }
 
 @Composable
-private fun FavoriteItem(
+private fun GridItem(
     title: String?,
     thumbnailUrl: String,
     onDeleteClick: (() -> Unit)? = null,
