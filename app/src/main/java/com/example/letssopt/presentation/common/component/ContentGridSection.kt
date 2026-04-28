@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
@@ -44,7 +45,7 @@ fun ContentGridSection(
         modifier = modifier,
         contentPadding = PaddingValues(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         stickyHeader {
             Text(
@@ -79,12 +80,11 @@ private fun FavoriteItem(
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box {
             BaseAsyncImage(
                 imageUrl = thumbnailUrl,
-                modifier = Modifier.verticalThumbnail(),
+                modifier = Modifier.verticalThumbnail(maxWidth = true),
             )
 
             onSaveClick?.let {
@@ -105,8 +105,11 @@ private fun FavoriteItem(
         title?.let {
             Text(
                 text = it,
+                modifier = Modifier.padding(top = 4.dp),
                 color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.body,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
         }
 
@@ -115,6 +118,7 @@ private fun FavoriteItem(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_archive_delete_24),
                 contentDescription = null,
                 modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
                     .clip(CircleShape)
                     .clickable { it() }
                     .padding(all = 12.dp),
@@ -130,7 +134,7 @@ private fun ContentGridSectionPreview() {
     LETSSOPTTheme {
         ContentGridSection(
             title = "찜한 목록",
-            contents = ContentModel.favoriteContents,
+            contents = ContentModel.purchaseContents,
             onDeleteClick = {},
             onSaveClick = {},
         )
