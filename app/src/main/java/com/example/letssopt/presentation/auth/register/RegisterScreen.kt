@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.common.extension.toast
 import com.example.letssopt.core.common.util.HandleUiEffects
@@ -39,39 +40,34 @@ import com.example.letssopt.core.designsystem.component.TextFieldDefault
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.presentation.auth.component.LogoText
 
-class RegisterActivity : ComponentActivity() {
-    private val viewModel by viewModels<RegisterViewModel>()
+@Composable
+fun RegisterRoute(
+    popBackStack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: RegisterViewModel = viewModel(),
+) {
+    val context = LocalContext.current
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            LETSSOPTTheme {
-                val context = LocalContext.current
+    HandleUiEffects(viewModel.uiEffect) { effect ->
+        when (effect) {
+            RegisterUiEffect.BackToLogin -> popBackStack()
 
-                HandleUiEffects(viewModel.uiEffect) { effect ->
-                    when (effect) {
-                        RegisterUiEffect.BackToLogin -> finish()
-
-                        is RegisterUiEffect.ShowToast -> context.toast(effect.message)
-                    }
-                }
-
-
-                RegisterScreen(
-                    emailState = viewModel.emailState,
-                    passwordState = viewModel.passwordState,
-                    passwordConfirmState = viewModel.passwordConfirmState,
-                    registerEnabled = viewModel.registerEnabled,
-                    onRegisterClick = viewModel::onRegisterClick,
-                )
-            }
+            is RegisterUiEffect.ShowToast -> context.toast(effect.message)
         }
     }
+
+    RegisterScreen(
+        emailState = viewModel.emailState,
+        passwordState = viewModel.passwordState,
+        passwordConfirmState = viewModel.passwordConfirmState,
+        registerEnabled = viewModel.registerEnabled,
+        onRegisterClick = viewModel::onRegisterClick,
+        modifier = modifier,
+    )
 }
 
 @Composable
-fun RegisterScreen(
+private fun RegisterScreen(
     emailState: TextFieldState,
     passwordState: TextFieldState,
     passwordConfirmState: TextFieldState,
