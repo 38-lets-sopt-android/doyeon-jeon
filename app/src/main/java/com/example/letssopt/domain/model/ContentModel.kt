@@ -4,6 +4,7 @@ import java.util.UUID
 
 data class ContentModel(
     val thumbnailUrl: String,
+    val title: String? = null,
     val id: String = UUID.randomUUID().toString(),
 ) {
     companion object {
@@ -34,7 +35,6 @@ data class ContentModel(
             ContentModel("https://i.pinimg.com/736x/14/74/8a/14748a7f2b5e788d5f0b3b2341faa4b3.jpg"),
             ContentModel("https://i.pinimg.com/736x/7f/46/3b/7f463bf7ef983693be1da88937d7b7dc.jpg"),
             ContentModel("https://i.pinimg.com/736x/93/c2/bf/93c2bf416aefb4bcb64f5eb2275f4006.jpg"),
-            ContentModel("https://i.pinimg.com/736x/cf/5e/64/cf5e64ffa1293cbba6e46e2e08adebf6.jpg")
         )
     }
 }

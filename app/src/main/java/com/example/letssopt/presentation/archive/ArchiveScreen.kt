@@ -1,10 +1,7 @@
 package com.example.letssopt.presentation.archive
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -14,17 +11,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
+import com.example.letssopt.presentation.common.component.ContentGridSection
 import com.example.letssopt.core.common.extension.toast
 import com.example.letssopt.core.common.util.HandleUiEffects
-import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.domain.model.ContentModel
-import com.example.letssopt.presentation.archive.component.FavoriteGrid
 
 @Composable
 fun ArchiveRoute(
     modifier: Modifier = Modifier,
     viewModel: ArchiveViewModel = viewModel(),
-    ) {
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
@@ -47,22 +43,13 @@ private fun ArchiveScreen(
     onDeleteClick: (ContentModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(horizontal = 16.dp),
-    ) {
-        Spacer(Modifier.height(70.dp))
-
-        Text(
-            text = stringResource(R.string.archive_title),
-            color = LETSSOPTTheme.colors.white,
-            style = LETSSOPTTheme.typography.h3,
-        )
-
-        Spacer(Modifier.height(45.dp))
-
-        FavoriteGrid(
-            contents = favoriteContents,
-            onDeleteClick = onDeleteClick,
-        )
-    }
+    ContentGridSection(
+        title = stringResource(R.string.archive_title),
+        contents = favoriteContents,
+        onDeleteClick = onDeleteClick,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .padding(top = 70.dp),
+    )
 }
