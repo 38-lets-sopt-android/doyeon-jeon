@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.common.extension.toast
 import com.example.letssopt.core.common.util.HandleUiEffects
@@ -21,9 +22,9 @@ import com.example.letssopt.presentation.archive.component.FavoriteGrid
 
 @Composable
 fun ArchiveRoute(
-    viewModel: ArchiveViewModel,
     modifier: Modifier = Modifier,
-) {
+    viewModel: ArchiveViewModel = viewModel(),
+    ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
