@@ -13,11 +13,11 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = PrimaryRed,
-    onPrimary = TextPrimary,
+    onPrimary = White,
     background = Background,
-    onBackground = TextPrimary,
+    onBackground = White,
     surface = Surface,
-    onSurface = TextPrimary,
+    onSurface = White,
 )
 
 object LETSSOPTTheme {

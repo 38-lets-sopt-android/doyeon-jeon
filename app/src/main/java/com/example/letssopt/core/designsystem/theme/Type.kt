@@ -16,8 +16,14 @@ class LETSSOPTTypography(
     val logo: TextStyle,
     val h1: TextStyle,
     val h2: TextStyle,
+    val h3: TextStyle,
+    val sh1: TextStyle,
+    val sh3: TextStyle,
     val body: TextStyle,
+    val body1: TextStyle,
+    val body2: TextStyle,
     val caption: TextStyle,
+    val cap1: TextStyle,
     val button: TextStyle,
 )
 
@@ -32,8 +38,11 @@ private val LETSSOPTBaseTextStyle = TextStyle(
 )
 
 private val PretendardFontFamily = FontFamily(
-    Font(R.font.pretendard_regular, weight = FontWeight.Normal),
     Font(R.font.pretendard_bold, weight = FontWeight.Bold),
+    Font(R.font.pretendard_semibold, weight = FontWeight.SemiBold),
+    Font(R.font.pretendard_medium, weight = FontWeight.Medium),
+    Font(R.font.pretendard_regular, weight = FontWeight.Normal),
+    Font(R.font.pretendard_light, weight = FontWeight.Light),
 )
 
 private val BoldStyle = LETSSOPTBaseTextStyle.copy(
@@ -41,17 +50,38 @@ private val BoldStyle = LETSSOPTBaseTextStyle.copy(
     fontWeight = FontWeight.Bold,
 )
 
+private val SemiBoldStyle = LETSSOPTBaseTextStyle.copy(
+    fontFamily = PretendardFontFamily,
+    fontWeight = FontWeight.SemiBold,
+)
+
+private val MediumStyle = LETSSOPTBaseTextStyle.copy(
+    fontFamily = PretendardFontFamily,
+    fontWeight = FontWeight.Medium,
+)
+
 private val RegularStyle = LETSSOPTBaseTextStyle.copy(
     fontFamily = PretendardFontFamily,
     fontWeight = FontWeight.Normal,
+)
+
+private val LightStyle = LETSSOPTBaseTextStyle.copy(
+    fontFamily = PretendardFontFamily,
+    fontWeight = FontWeight.Light,
 )
 
 val defaultLETSSOPTTypography = LETSSOPTTypography(
     logo = BoldStyle.copy(fontSize = 36.sp),
     h1 = BoldStyle.copy(fontSize = 24.sp),
     h2 = BoldStyle.copy(fontSize = 20.sp),
+    h3 = SemiBoldStyle.copy(fontSize = 20.sp),
+    sh1 = SemiBoldStyle.copy(fontSize = 18.sp),
+    sh3 = SemiBoldStyle.copy(fontSize = 12.sp),
     body = RegularStyle.copy(fontSize = 16.sp),
+    body1 = MediumStyle.copy(fontSize = 12.sp),
+    body2 = RegularStyle.copy(fontSize = 12.sp),
     caption = RegularStyle.copy(fontSize = 13.sp),
+    cap1 = LightStyle.copy(fontSize = 12.sp),
     button = BoldStyle.copy(fontSize = 16.sp),
 )
 
