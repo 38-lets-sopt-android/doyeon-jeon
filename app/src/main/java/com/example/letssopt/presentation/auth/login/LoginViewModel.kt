@@ -6,8 +6,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.data.local.AuthException
-import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.data.auth.AuthException
+import com.example.letssopt.data.auth.AuthRepository
 
 class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) {
     val emailState = TextFieldState()

@@ -7,7 +7,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.data.auth.AuthRepository
 
 private enum class RegisterValidationError(@param:StringRes val message: Int) {
     EMAIL_INVALID(R.string.register_msg_fail_emailinvalid),

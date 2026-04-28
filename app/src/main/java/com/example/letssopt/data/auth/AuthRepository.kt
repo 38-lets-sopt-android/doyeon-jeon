@@ -1,4 +1,4 @@
-package com.example.letssopt.data.local
+package com.example.letssopt.data.auth
 
 import android.content.Context
 import android.content.SharedPreferences

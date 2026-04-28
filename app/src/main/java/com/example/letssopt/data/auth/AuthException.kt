@@ -1,4 +1,4 @@
-package com.example.letssopt.data.local
+package com.example.letssopt.data.auth
 
 sealed class AuthException : Exception() {
     class NoAccountFound : AuthException()
