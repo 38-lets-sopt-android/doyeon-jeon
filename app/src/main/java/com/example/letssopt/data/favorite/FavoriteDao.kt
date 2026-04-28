@@ -12,7 +12,7 @@ interface FavoriteDao {
     suspend fun insert(favoriteEntity: FavoriteEntity)
 
     @Query("SELECT * FROM favorite")
-    suspend fun getAll(): Flow<List<FavoriteEntity>>
+    fun getAll(): Flow<List<FavoriteEntity>>
 
     @Delete
     suspend fun delete(favoriteEntity: FavoriteEntity)
