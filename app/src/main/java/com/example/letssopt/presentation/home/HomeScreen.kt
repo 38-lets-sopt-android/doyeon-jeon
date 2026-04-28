@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.presentation.home.component.HomeTopBar
 import com.example.letssopt.presentation.home.component.NewContentsSection
 import com.example.letssopt.presentation.home.component.UpcomingContentsSection
@@ -20,8 +21,8 @@ import com.example.letssopt.domain.model.WatchPartyModel
 
 @Composable
 fun HomeRoute(
-    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
