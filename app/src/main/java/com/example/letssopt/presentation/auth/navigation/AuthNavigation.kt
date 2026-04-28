@@ -1,8 +1,5 @@
 package com.example.letssopt.presentation.auth.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -30,7 +27,6 @@ fun NavController.navigateToRegister() {
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavController,
-    paddingValues: PaddingValues,
 ) {
     navigation<AuthGraph>(
         startDestination = AuthRoute.Login,
@@ -39,14 +35,12 @@ fun NavGraphBuilder.authNavGraph(
             LoginRoute(
                 navigateToRegister = navController::navigateToRegister,
                 navigateToMain = navController::navigateToHome,
-                modifier = Modifier.padding(paddingValues),
             )
         }
 
         composable<AuthRoute.Register> {
             RegisterRoute(
                 popBackStack = navController::popBackStack,
-                modifier = Modifier.padding(paddingValues),
             )
         }
     }

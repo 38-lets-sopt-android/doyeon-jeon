@@ -27,7 +27,6 @@ fun MainNavHost(
     ) {
         authNavGraph(
             navController = navigator.navController,
-            paddingValues = paddingValues,
         )
         homeNavGraph(
             paddingValues = paddingValues,
