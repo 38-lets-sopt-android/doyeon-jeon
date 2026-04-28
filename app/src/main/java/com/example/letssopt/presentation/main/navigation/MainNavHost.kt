@@ -1,5 +1,8 @@
 package com.example.letssopt.presentation.main.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -24,6 +27,10 @@ fun MainNavHost(
         navController = navigator.navController,
         startDestination = startDestination,
         modifier = modifier.fillMaxSize(),
+        enterTransition = { fadeIn(tween(160)) },
+        exitTransition = { fadeOut(tween(160)) },
+        popEnterTransition = { fadeIn(tween(160)) },
+        popExitTransition = { fadeOut(tween(160)) },
     ) {
         authNavGraph(
             navController = navigator.navController,
