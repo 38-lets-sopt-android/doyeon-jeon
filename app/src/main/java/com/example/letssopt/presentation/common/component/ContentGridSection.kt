@@ -36,9 +36,9 @@ import com.example.letssopt.domain.model.ContentModel
 fun ContentGridSection(
     title: String,
     contents: List<ContentModel>,
+    modifier: Modifier = Modifier,
     onDeleteClick: ((ContentModel) -> Unit)? = null,
     onSaveClick: ((ContentModel) -> Unit)? = null,
-    modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
