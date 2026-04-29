@@ -88,16 +88,18 @@ private fun GridItem(
             )
 
             onSaveClick?.let {
-                Text(
-                    text = "🎫",
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_purchase_ticket_18),
+                    contentDescription = null,
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .offset((-5).dp, 7.dp)
+                        .padding(all = 6.dp)
+                        .size(28.dp)
                         .clip(CircleShape)
                         .clickable { it() }
-                        .background(LETSSOPTTheme.colors.background)
-                        .size(35.dp)
-                        .wrapContentSize(Alignment.Center)
+                        .background(LETSSOPTTheme.colors.black)
+                        .wrapContentSize(Alignment.Center),
+                    tint = Color.Unspecified,
                 )
             }
         }
@@ -105,7 +107,7 @@ private fun GridItem(
         title?.let {
             Text(
                 text = it,
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = 6.dp),
                 color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.body,
                 maxLines = 2,
