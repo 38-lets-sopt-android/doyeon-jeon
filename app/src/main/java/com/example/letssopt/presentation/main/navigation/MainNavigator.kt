@@ -3,6 +3,7 @@ package com.example.letssopt.presentation.main.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -18,7 +19,7 @@ class MainNavigator(
 
     val currentTab: MainTab?
         @Composable get() = MainTab.entries.find { tab ->
-            currentDestination?.route == tab.route::class.qualifiedName
+            currentDestination?.hasRoute(tab.route::class) == true
         }
 
     fun navigate(tab: MainTab) {
