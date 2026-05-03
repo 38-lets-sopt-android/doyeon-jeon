@@ -1,5 +1,8 @@
-package com.example.letssopt.data.favorite
+package com.example.letssopt.data.repository
 
+import com.example.letssopt.data.local.dao.FavoriteDao
+import com.example.letssopt.data.mapper.toEntity
+import com.example.letssopt.data.mapper.toModel
 import com.example.letssopt.domain.model.ContentModel
 import com.example.letssopt.domain.repository.FavoriteRepository
 import kotlinx.coroutines.flow.Flow

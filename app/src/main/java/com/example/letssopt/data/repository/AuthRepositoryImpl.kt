@@ -1,9 +1,10 @@
-package com.example.letssopt.data.auth
+package com.example.letssopt.data.repository
 
+import com.example.letssopt.data.local.datasource.AuthLocalDataSource
 import com.example.letssopt.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
-    private val authPrefs: AuthPreferences,
+    private val authPrefs: AuthLocalDataSource,
 ) : AuthRepository {
     override fun register(email: String, password: String): Result<Unit> {
         return runCatching {
@@ -33,4 +34,10 @@ class AuthRepositoryImpl(
     override fun getIsLoggedIn(): Result<Boolean> = runCatching {
         authPrefs.getIsLoggedIn()
     }
+}
+
+sealed class AuthException : Exception() {
+    class NoAccountFound : AuthException()
+    class EmailNotFound : AuthException()
+    class PasswordMismatch : AuthException()
 }

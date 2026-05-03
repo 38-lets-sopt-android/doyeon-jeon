@@ -6,7 +6,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.data.auth.AuthException
 import com.example.letssopt.data.di.RepositoryModule
 
 class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) {

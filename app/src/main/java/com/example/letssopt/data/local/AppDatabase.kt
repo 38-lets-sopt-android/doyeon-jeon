@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.letssopt.data.favorite.FavoriteDao
-import com.example.letssopt.data.favorite.FavoriteEntity
+import com.example.letssopt.data.local.dao.FavoriteDao
+import com.example.letssopt.data.local.entity.FavoriteEntity
 
 @Database(entities = [FavoriteEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

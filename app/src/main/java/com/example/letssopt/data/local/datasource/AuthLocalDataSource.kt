@@ -1,11 +1,11 @@
-package com.example.letssopt.data.auth
+package com.example.letssopt.data.local.datasource
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.example.letssopt.R
 
-object AuthPreferences {
+object AuthLocalDataSource {
     lateinit var prefs: SharedPreferences
 
     fun init(context: Context) {

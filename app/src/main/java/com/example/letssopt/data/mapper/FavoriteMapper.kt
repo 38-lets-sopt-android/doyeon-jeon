@@ -1,5 +1,6 @@
-package com.example.letssopt.data.favorite
+package com.example.letssopt.data.mapper
 
+import com.example.letssopt.data.local.entity.FavoriteEntity
 import com.example.letssopt.domain.model.ContentModel
 
 fun FavoriteEntity.toModel() = ContentModel(
