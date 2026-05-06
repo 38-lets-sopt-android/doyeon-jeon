@@ -11,7 +11,7 @@ import com.example.letssopt.domain.repository.UserRepository
 
 class UserRepositoryImpl(
     private val apiResponseHandler: ApiResponseHandler,
-    private val authPrefs: AuthLocalDataSource,
+    private val authLocalDataSource: AuthLocalDataSource,
     private val userService: UserService,
 ) : UserRepository {
     override suspend fun getMyInfo(): Result<MyInfoModel> {
@@ -27,5 +27,5 @@ class UserRepositoryImpl(
             userService.getUserList()
         }.map { it.toModel() }
 
-    private fun getMyId(): Result<Long?> = runCatching { authPrefs.getUserId() }
+    private fun getMyId(): Result<Long?> = runCatching { authLocalDataSource.getUserId() }
 }

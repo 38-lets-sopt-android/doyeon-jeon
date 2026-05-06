@@ -32,7 +32,7 @@ fun MyProfileRoute(
     navigateToProfileList: () -> Unit,
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MyProfileViewModel = viewModel(),
+    viewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModelFactory()),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
