@@ -170,7 +170,7 @@ private fun RegisterScreen(
             TextFieldDefault(
                 state = nameState,
                 placeholder = stringResource(R.string.register_placeholder_name),
-                label = stringResource(R.string.register_label_name),
+                label = stringResource(R.string.label_name),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                 ),
@@ -184,7 +184,7 @@ private fun RegisterScreen(
             TextFieldDefault(
                 state = emailState,
                 placeholder = stringResource(R.string.register_placeholder_email),
-                label = stringResource(R.string.register_label_email),
+                label = stringResource(R.string.label_email),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
                 ),
@@ -198,7 +198,7 @@ private fun RegisterScreen(
             TextFieldDefault(
                 state = ageState,
                 placeholder = stringResource(R.string.register_placeholder_age),
-                label = stringResource(R.string.register_label_age),
+                label = stringResource(R.string.label_age),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Number
                 ),
@@ -212,7 +212,7 @@ private fun RegisterScreen(
             TextFieldDefault(
                 state = partState,
                 placeholder = stringResource(R.string.register_placeholder_part),
-                label = stringResource(R.string.register_label_part),
+                label = stringResource(R.string.label_part),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
