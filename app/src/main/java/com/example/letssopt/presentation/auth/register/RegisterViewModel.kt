@@ -1,70 +1,119 @@
 package com.example.letssopt.presentation.auth.register
 
-import android.util.Patterns
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewModelScope
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
 import com.example.letssopt.data.di.RepositoryModule
+import com.example.letssopt.domain.exception.AuthException
+import kotlinx.coroutines.launch
 
 private enum class RegisterValidationError(@param:StringRes val message: Int) {
-    EMAIL_INVALID(R.string.register_msg_fail_emailinvalid),
-    PASSWORD_INVALID_LENGTH(R.string.register_msg_fail_passwordlength),
-    PASSWORD_MISMATCH(R.string.register_msg_fail_passwordmismatch)
+    PASSWORD_MISMATCH(R.string.register_msg_fail_passwordmismatch),
+    AGE_NOT_INTEGER(R.string.register_msg_fail_agenotinteger);
 }
 
 
 class RegisterViewModel : BaseViewModel<RegisterUiState, RegisterUiEffect>(RegisterUiState) {
     private val authRepository = RepositoryModule.authRepository
 
-    val emailState = TextFieldState()
+    val idState = TextFieldState()
     val passwordState = TextFieldState()
     val passwordConfirmState = TextFieldState()
+    val nameState = TextFieldState()
+    val emailState = TextFieldState()
+    val ageState = TextFieldState()
+    val partState = TextFieldState("안드로이드")
 
     val registerEnabled by derivedStateOf {
-        emailState.text.isNotBlank() && passwordState.text.isNotBlank() && passwordConfirmState.text.isNotBlank()
+        idState.text.isNotBlank() && emailState.text.isNotBlank()
+                && passwordState.text.isNotBlank() && passwordConfirmState.text.isNotBlank()
+                && nameState.text.isNotBlank() && ageState.text.isNotBlank()
+                && partState.text.isNotBlank()
     }
 
     fun onRegisterClick() {
-        val emailText = emailState.text.toString()
+        val idText = idState.text.toString()
         val passwordText = passwordState.text.toString()
         val passwordConfirmText = passwordConfirmState.text.toString()
+        val nameText = nameState.text.toString()
+        val emailText = emailState.text.toString()
+        val ageText = ageState.text.toString()
+        val partText = partState.text.toString()
 
-        val error = validateRegisterInputs(emailText, passwordText, passwordConfirmText)
+        val error = validateRegisterInputs(
+            passwordText = passwordText,
+            passwordConfirmText = passwordConfirmText,
+            ageText = ageText,
+        )
         if (error != null) {
             return sendEffect(RegisterUiEffect.ShowToast(error.message))
         }
 
-        handleRegister(emailText, passwordText)
+        handleRegister(
+            idText = idText,
+            passwordText = passwordText,
+            nameText = nameText,
+            emailText = emailText,
+            ageText = ageText,
+            partText = partText,
+        )
     }
 
     private fun handleRegister(
-        emailText: String,
+        idText: String,
         passwordText: String,
+        nameText: String,
+        emailText: String,
+        ageText: String,
+        partText: String,
     ) {
-        authRepository.register(emailText, passwordText)
-            .onSuccess {
-                sendEffect(RegisterUiEffect.ShowToast(R.string.register_msg_success))
-                sendEffect(RegisterUiEffect.BackToLogin)
-            }
-            .onFailure {
-                sendEffect(RegisterUiEffect.ShowToast(R.string.register_msg_fail))
-            }
+        val ageInt = runCatching { ageText.toInt() }.getOrNull() ?: return
+
+        viewModelScope.launch {
+            authRepository.register(
+                loginId = idText,
+                email = emailText,
+                password = passwordText,
+                name = nameText,
+                age = ageInt,
+                part = partText,
+            )
+                .onSuccess {
+                    sendEffect(RegisterUiEffect.ShowToast(R.string.register_msg_success))
+                    sendEffect(RegisterUiEffect.BackToLogin)
+                }
+                .onFailure {
+                    val message = if (it is AuthException) {
+                        when (it) {
+                            is AuthException.AgeInvalid -> TODO()
+                            is AuthException.EmailInvalid -> TODO()
+                            is AuthException.IdInvalid -> TODO()
+                            is AuthException.NameInvalid -> TODO()
+                            is AuthException.PartInvalid -> TODO()
+                            is AuthException.PasswordInvalid -> TODO()
+                            else -> R.string.register_msg_fail
+                        }
+                    } else R.string.register_msg_fail
+                }
+        }
     }
 
     private fun validateRegisterInputs(
-        emailText: String,
         passwordText: String,
         passwordConfirmText: String,
+        ageText: String,
     ): RegisterValidationError? {
         return when {
-            !Patterns.EMAIL_ADDRESS.matcher(emailText)
-                .matches() -> RegisterValidationError.EMAIL_INVALID
+            passwordText != passwordConfirmText
+                -> RegisterValidationError.PASSWORD_MISMATCH
 
-            passwordText.length !in 8..12 -> RegisterValidationError.PASSWORD_INVALID_LENGTH
-            passwordText != passwordConfirmText -> RegisterValidationError.PASSWORD_MISMATCH
+            runCatching { ageText.toInt() }.getOrNull() == null
+                -> RegisterValidationError.AGE_NOT_INTEGER
+
             else -> null
         }
     }
