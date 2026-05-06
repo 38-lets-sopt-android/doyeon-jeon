@@ -77,4 +77,7 @@
     <string name="profile_msg_fail">프로필을 불러오는데 실패했습니다</string>
     <string name="profile_title">프로필</string>
     <string name="profile_btn">다른 유저들 보러가기</string>
+
+    <!-- Profile List -->
+    <string name="profilelist_title">친구들</string>
 </resources>
