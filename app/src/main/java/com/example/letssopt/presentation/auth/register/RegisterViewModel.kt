@@ -7,7 +7,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.data.di.RepositoryModule
 
 private enum class RegisterValidationError(@param:StringRes val message: Int) {
     EMAIL_INVALID(R.string.register_msg_fail_emailinvalid),
@@ -17,6 +17,8 @@ private enum class RegisterValidationError(@param:StringRes val message: Int) {
 
 
 class RegisterViewModel : BaseViewModel<RegisterUiState, RegisterUiEffect>(RegisterUiState) {
+    private val authRepository = RepositoryModule.authRepository
+
     val emailState = TextFieldState()
     val passwordState = TextFieldState()
     val passwordConfirmState = TextFieldState()
@@ -42,7 +44,7 @@ class RegisterViewModel : BaseViewModel<RegisterUiState, RegisterUiEffect>(Regis
         emailText: String,
         passwordText: String,
     ) {
-        AuthRepository.register(emailText, passwordText)
+        authRepository.register(emailText, passwordText)
             .onSuccess {
                 sendEffect(RegisterUiEffect.ShowToast(R.string.register_msg_success))
                 sendEffect(RegisterUiEffect.BackToLogin)

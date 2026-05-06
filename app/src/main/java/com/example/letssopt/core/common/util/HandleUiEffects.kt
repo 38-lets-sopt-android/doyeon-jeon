@@ -6,20 +6,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 @Composable
 fun <T> HandleUiEffects(
     uiEffectFlow: Flow<T>,
     lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onSideEffect: suspend (T) -> Unit,
+    onSideEffect: (T) -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(lifecycleOwner, uiEffectFlow) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(lifecycleState) {
             uiEffectFlow.collect { effect ->
-                launch { onSideEffect(effect) }
+                onSideEffect(effect)
             }
         }
     }

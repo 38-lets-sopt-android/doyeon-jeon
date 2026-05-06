@@ -1,13 +1,12 @@
 package com.example.letssopt.core.designsystem.theme
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -37,7 +36,7 @@ fun LETSSOPTTheme(
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
 
     SideEffect {
         activity?.window?.let {

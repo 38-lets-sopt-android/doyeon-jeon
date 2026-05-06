@@ -1,11 +1,13 @@
 package com.example.letssopt
 
 import android.app.Application
-import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.data.local.datasource.AuthLocalDataSource
+import com.example.letssopt.data.di.DatabaseModule
 
 class LETSSOPTApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        AuthRepository.init(this)
+        AuthLocalDataSource.init(this)
+        DatabaseModule.init(this)
     }
 }

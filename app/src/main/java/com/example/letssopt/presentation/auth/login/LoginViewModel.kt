@@ -6,10 +6,11 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.data.local.AuthException
-import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.data.di.RepositoryModule
 
 class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) {
+    private val authRepository = RepositoryModule.authRepository
+
     val emailState = TextFieldState()
     val passwordState = TextFieldState()
 
@@ -26,7 +27,7 @@ class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) 
         emailText: String,
         passwordText: String,
     ) {
-        AuthRepository.login(emailText, passwordText)
+        authRepository.login(emailText, passwordText)
             .onSuccess {
                 sendEffect(LoginUiEffect.ShowToast(R.string.login_msg_success))
                 sendEffect(LoginUiEffect.NavigateToMain)
