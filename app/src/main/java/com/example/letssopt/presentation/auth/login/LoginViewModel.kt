@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
 import com.example.letssopt.data.di.RepositoryModule
+import com.example.letssopt.data.repository.AuthException
 
 class LoginViewModel : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState) {
     private val authRepository = RepositoryModule.authRepository
