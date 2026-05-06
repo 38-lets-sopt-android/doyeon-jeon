@@ -158,11 +158,10 @@ private fun RegisterScreen(
                 label = stringResource(R.string.register_label_passwordconfirm),
                 isPassword = true,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
+                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Password
                 ),
                 onKeyboardAction = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
+                    focusManager.moveFocus(FocusDirection.Next)
                 },
             )
 
@@ -172,13 +171,11 @@ private fun RegisterScreen(
                 state = nameState,
                 placeholder = stringResource(R.string.register_placeholder_name),
                 label = stringResource(R.string.register_label_name),
-                isPassword = true,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
+                    imeAction = ImeAction.Next,
                 ),
                 onKeyboardAction = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
+                    focusManager.moveFocus(FocusDirection.Next)
                 },
             )
 
@@ -188,7 +185,6 @@ private fun RegisterScreen(
                 state = emailState,
                 placeholder = stringResource(R.string.register_placeholder_email),
                 label = stringResource(R.string.register_label_email),
-                isPassword = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
                 ),
@@ -203,7 +199,6 @@ private fun RegisterScreen(
                 state = ageState,
                 placeholder = stringResource(R.string.register_placeholder_age),
                 label = stringResource(R.string.register_label_age),
-                isPassword = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Number
                 ),
@@ -218,7 +213,6 @@ private fun RegisterScreen(
                 state = partState,
                 placeholder = stringResource(R.string.register_placeholder_part),
                 label = stringResource(R.string.register_label_part),
-                isPassword = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
