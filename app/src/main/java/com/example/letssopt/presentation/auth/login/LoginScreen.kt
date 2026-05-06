@@ -43,7 +43,7 @@ fun LoginRoute(
     navigateToRegister: ()->Unit,
     navigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory()),
 ) {
     val context = LocalContext.current
 

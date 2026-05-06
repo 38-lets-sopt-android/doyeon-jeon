@@ -7,8 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
-import com.example.letssopt.data.di.RepositoryModule
 import com.example.letssopt.domain.exception.AuthException
+import com.example.letssopt.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 private enum class RegisterValidationError(@param:StringRes val message: Int) {
@@ -17,9 +17,9 @@ private enum class RegisterValidationError(@param:StringRes val message: Int) {
 }
 
 
-class RegisterViewModel : BaseViewModel<RegisterUiState, RegisterUiEffect>(RegisterUiState) {
-    private val authRepository = RepositoryModule.authRepository
-
+class RegisterViewModel(
+    private val authRepository: AuthRepository,
+) : BaseViewModel<RegisterUiState, RegisterUiEffect>(RegisterUiState) {
     val idState = TextFieldState()
     val passwordState = TextFieldState()
     val passwordConfirmState = TextFieldState()

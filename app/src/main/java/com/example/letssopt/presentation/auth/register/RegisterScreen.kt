@@ -39,7 +39,7 @@ import com.example.letssopt.presentation.auth.component.LogoText
 fun RegisterRoute(
     popBackStack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: RegisterViewModel = viewModel(),
+    viewModel: RegisterViewModel = viewModel(factory = RegisterViewModelFactory()),
 ) {
     val context = LocalContext.current
 
