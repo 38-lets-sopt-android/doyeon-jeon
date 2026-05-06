@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.kotlinx.serialization)
+    // --- Paging ---
+    implementation(libs.paging.common)
+    implementation(libs.paging.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
