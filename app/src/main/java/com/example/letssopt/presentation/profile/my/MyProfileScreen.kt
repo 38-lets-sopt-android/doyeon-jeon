@@ -16,9 +16,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.letssopt.R
 import com.example.letssopt.core.base.Async
 import com.example.letssopt.core.common.extension.toast
 import com.example.letssopt.core.common.util.HandleUiEffects
@@ -76,7 +78,7 @@ fun MyProfileScreen(
         Spacer(Modifier.height(70.dp))
 
         Text(
-            text = "프로필",
+            text = stringResource(R.string.profile_title),
             color = LETSSOPTTheme.colors.white,
             style = LETSSOPTTheme.typography.h3,
         )
@@ -88,7 +90,7 @@ fun MyProfileScreen(
         Spacer(Modifier.height(30.dp))
 
         ButtonPrimary(
-            text = "다른 유저들 보러가기",
+            text = stringResource(R.string.profile_btn),
             onClick = onClick,
             enabled = true,
             modifier = Modifier.fillMaxWidth()
