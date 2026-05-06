@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.letssopt.core.common.extension.composableWithSlideTransition
 import com.example.letssopt.core.navigation.Route
 import com.example.letssopt.presentation.auth.navigation.navigateToLogin
 import com.example.letssopt.presentation.profile.list.ProfileListRoute
@@ -34,12 +35,7 @@ fun NavGraphBuilder.profileNavGraph(
     navController: NavController,
     paddingValues: PaddingValues,
 ) {
-    composable<ProfileRoute.MyProfile>(
-        enterTransition = { slideInHorizontally { it } },
-        exitTransition = { slideOutHorizontally { -it } },
-        popEnterTransition = { slideInHorizontally { -it } },
-        popExitTransition = { slideOutHorizontally { it } },
-    ) {
+    composable<ProfileRoute.MyProfile> {
         MyProfileRoute(
             navigateToProfileList = navController::navigateToProfileList,
             navigateToLogin = navController::navigateToLogin,
@@ -47,12 +43,7 @@ fun NavGraphBuilder.profileNavGraph(
         )
     }
 
-    composable<ProfileRoute.ProfileList>(
-        enterTransition = { slideInHorizontally { it } },
-        exitTransition = { slideOutHorizontally { -it } },
-        popEnterTransition = { slideInHorizontally { -it } },
-        popExitTransition = { slideOutHorizontally { it } },
-    ) {
+    composableWithSlideTransition<ProfileRoute.ProfileList> {
         ProfileListRoute(
             modifier = Modifier.padding(paddingValues),
         )
