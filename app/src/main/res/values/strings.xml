@@ -19,19 +19,17 @@
     <!--  Common  -->
     <string name="watcha">watcha</string>
     <string name="action_more">더보기</string>
-    <string name="placeholder_email">이메일 주소를 입력하세요</string>
-    <string name="label_email">이메일</string>
+    <string name="placeholder_id">아이디를 입력하세요</string>
+    <string name="label_id">아이디</string>
     <string name="placeholder_password">비밀번호를 입력하세요</string>
     <string name="label_password">비밀번호</string>
 
     <!--  Login  -->
     <string name="login_btn">로그인</string>
-    <string name="login_title">이메일로 로그인</string>
+    <string name="login_title">아이디로 로그인</string>
     <string name="login_btn_register">아직 계정이 없으신가요?  회원가입</string>
     <string name="login_msg_success">로그인에 성공했습니다</string>
-    <string name="login_msg_fail_emailnotfound">존재하지 않는 이메일입니다</string>
-    <string name="login_msg_fail_needregister">회원가입을 먼저 수행해주세요</string>
-    <string name="login_msg_fail_passwordmismatch">비밀번호가 올바르지 않습니다</string>
+    <string name="login_msg_fail_inputmismatch">아이디 또는 비밀번호가 올바르지 않습니다</string>
     <string name="login_msg_fail">로그인에 실패했습니다</string>
 
     <!--  Register  -->

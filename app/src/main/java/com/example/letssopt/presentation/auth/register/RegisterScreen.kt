@@ -1,10 +1,5 @@
 package com.example.letssopt.presentation.auth.register
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -122,8 +117,8 @@ private fun RegisterScreen(
 
             TextFieldDefault(
                 state = emailState,
-                placeholder = stringResource(R.string.placeholder_email),
-                label = stringResource(R.string.label_email),
+                placeholder = stringResource(R.string.placeholder_id),
+                label = stringResource(R.string.label_id),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
                 ),
