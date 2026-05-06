@@ -12,6 +12,7 @@ import com.example.letssopt.core.navigation.Route
 import com.example.letssopt.presentation.archive.navigation.archiveNavGraph
 import com.example.letssopt.presentation.auth.navigation.authNavGraph
 import com.example.letssopt.presentation.home.navigation.homeNavGraph
+import com.example.letssopt.presentation.profile.navigation.profileNavGraph
 import com.example.letssopt.presentation.purchase.navigation.purchaseNavGraph
 import com.example.letssopt.presentation.search.navigation.searchNavGraph
 import com.example.letssopt.presentation.webtoon.navigation.webtoonNavGraph
@@ -36,6 +37,7 @@ fun MainNavHost(
             navController = navigator.navController,
         )
         homeNavGraph(
+            navController = navigator.navController,
             paddingValues = paddingValues,
         )
         purchaseNavGraph(
@@ -48,6 +50,10 @@ fun MainNavHost(
             paddingValues = paddingValues,
         )
         archiveNavGraph(
+            paddingValues = paddingValues,
+        )
+        profileNavGraph(
+            navController = navigator.navController,
             paddingValues = paddingValues,
         )
     }

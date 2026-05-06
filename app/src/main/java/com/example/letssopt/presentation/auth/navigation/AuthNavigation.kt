@@ -21,6 +21,12 @@ sealed interface AuthRoute : Route {
     data object Register : AuthRoute
 }
 
+fun NavController.navigateToLogin() {
+    navigate(AuthRoute.Login) {
+        popUpTo(0) { inclusive = true }
+    }
+}
+
 fun NavController.navigateToRegister() {
     navigate(AuthRoute.Register)
 }

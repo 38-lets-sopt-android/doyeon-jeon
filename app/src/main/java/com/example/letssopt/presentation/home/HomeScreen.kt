@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.presentation.home.component.HomeTopBar
 import com.example.letssopt.presentation.home.component.NewContentsSection
 import com.example.letssopt.presentation.home.component.UpcomingContentsSection
@@ -21,16 +22,24 @@ import com.example.letssopt.domain.model.WatchPartyModel
 
 @Composable
 fun HomeRoute(
+    navigateToMyProfile: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    HandleUiEffects(viewModel.uiEffect) { effect ->
+        when (effect) {
+            HomeUiEffect.NaviageToMyProfile -> navigateToMyProfile()
+        }
+    }
 
     HomeScreen(
         newContents = uiState.newContents,
         whatgorithmContents = uiState.whatgorithmContents,
         upcomingContents = uiState.upcomingContents,
         partyContents = uiState.partyContents,
+        onProfileClick = viewModel::onProfileClick,
         modifier = modifier
     )
 }
@@ -41,12 +50,15 @@ private fun HomeScreen(
     whatgorithmContents: List<ContentModel>,
     upcomingContents: List<ContentModel>,
     partyContents: List<WatchPartyModel>,
+    onProfileClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
     ) {
-        HomeTopBar()
+        HomeTopBar(
+            onProfileClick = onProfileClick,
+        )
 
         Spacer(Modifier.height(24.dp))
 

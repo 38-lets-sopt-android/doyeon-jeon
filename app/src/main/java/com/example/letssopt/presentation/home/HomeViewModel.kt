@@ -27,4 +27,8 @@ class HomeViewModel: BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
     private fun getPartyContents() {
         updateState { copy(partyContents = WatchPartyModel.parties) }
     }
+
+    fun onProfileClick() {
+        sendEffect(HomeUiEffect.NaviageToMyProfile)
+    }
 }
