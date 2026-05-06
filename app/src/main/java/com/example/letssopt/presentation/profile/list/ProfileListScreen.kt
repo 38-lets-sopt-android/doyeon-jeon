@@ -28,7 +28,7 @@ import com.example.letssopt.presentation.profile.component.UserInfoList
 @Composable
 fun ProfileListRoute(
     modifier: Modifier = Modifier,
-    viewModel: ProfileListViewModel = viewModel(),
+    viewModel: ProfileListViewModel = viewModel(factory = ProfileListViewModelFactory()),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current

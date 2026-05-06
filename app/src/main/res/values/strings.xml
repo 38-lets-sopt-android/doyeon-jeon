@@ -80,4 +80,5 @@
 
     <!-- Profile List -->
     <string name="profilelist_title">친구들</string>
+    <string name="profilelist_msg_fail">유저 목록을 불러오는데 실패했습니다</string>
 </resources>
