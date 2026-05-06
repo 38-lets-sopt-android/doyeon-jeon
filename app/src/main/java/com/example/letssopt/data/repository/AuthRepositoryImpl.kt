@@ -35,6 +35,7 @@ class AuthRepositoryImpl(
     }.recoverCatching {
         throw if (it is ApiError) {
             when (it.serverCode) {
+                "AUTH_409_001" -> AuthException.IdDuplicated()
                 "AUTH_400_002" -> AuthException.IdInvalid()
                 "AUTH_400_004" -> AuthException.PasswordInvalid()
                 "AUTH_400_006" -> AuthException.NameInvalid()

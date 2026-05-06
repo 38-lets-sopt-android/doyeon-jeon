@@ -89,15 +89,17 @@ class RegisterViewModel(
                 .onFailure {
                     val message = if (it is AuthException) {
                         when (it) {
-                            is AuthException.AgeInvalid -> TODO()
-                            is AuthException.EmailInvalid -> TODO()
-                            is AuthException.IdInvalid -> TODO()
-                            is AuthException.NameInvalid -> TODO()
-                            is AuthException.PartInvalid -> TODO()
-                            is AuthException.PasswordInvalid -> TODO()
+                            is AuthException.IdDuplicated -> R.string.register_msg_fail_idduplicated
+                            is AuthException.AgeInvalid -> R.string.register_msg_fail_ageinvalid
+                            is AuthException.EmailInvalid -> R.string.register_msg_fail_emailinvalid
+                            is AuthException.IdInvalid -> R.string.register_msg_fail_idinvalid
+                            is AuthException.NameInvalid -> R.string.register_msg_fail_nameinvalid
+                            is AuthException.PartInvalid -> R.string.register_msg_fail_partinvalid
+                            is AuthException.PasswordInvalid -> R.string.register_msg_fail_passwordlength
                             else -> R.string.register_msg_fail
                         }
                     } else R.string.register_msg_fail
+                    sendEffect(RegisterUiEffect.ShowToast(message))
                 }
         }
     }

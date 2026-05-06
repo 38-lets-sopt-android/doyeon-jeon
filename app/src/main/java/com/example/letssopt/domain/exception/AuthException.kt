@@ -2,6 +2,7 @@ package com.example.letssopt.domain.exception
 
 sealed class AuthException : Exception() {
     class IdOrPasswordMismatch : AuthException() // 아이디 또는 비밀번호 불일치
+    class IdDuplicated: AuthException() // 사용 중인 아이디
     class IdInvalid : AuthException() // 아이디가 4~20자 사이가 아님
     class PasswordInvalid : AuthException() // 비밀번호가 8~20자 사이가 아님
     class NameInvalid : AuthException() // 이름이 10자 이하가 아님
