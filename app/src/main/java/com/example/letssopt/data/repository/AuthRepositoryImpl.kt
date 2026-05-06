@@ -11,7 +11,7 @@ import com.example.letssopt.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
     private val apiResponseHandler: ApiResponseHandler,
-    private val authPrefs: AuthLocalDataSource,
+    private val authLocalDataSource: AuthLocalDataSource,
     private val authService: AuthService,
 ) : AuthRepository {
     override suspend fun register(
@@ -64,10 +64,10 @@ class AuthRepositoryImpl(
         }
 
     override fun getIsLoggedIn(): Result<Boolean> = runCatching {
-        authPrefs.getUserId() != null
+        authLocalDataSource.getUserId() != null
     }
 
     private fun saveUserId(userId: Long) = runCatching {
-        authPrefs.setUserId(userId)
+        authLocalDataSource.setUserId(userId)
     }
 }
