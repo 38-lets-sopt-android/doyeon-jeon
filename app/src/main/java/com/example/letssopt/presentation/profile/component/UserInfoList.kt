@@ -1,6 +1,7 @@
 package com.example.letssopt.presentation.profile.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,18 +46,11 @@ private fun InfoItem(
     part: String,
     modifier: Modifier = Modifier,
 ) {
-    val colors = LETSSOPTTheme.colors
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.black)
-            .drawBehind {
-                drawRect(
-                    color = colors.white,
-                    style = Stroke(1.dp.toPx())
-                )
-            }
+            .background(LETSSOPTTheme.colors.black)
+            .border(width = 1.dp, color = LETSSOPTTheme.colors.white)
             .padding(vertical = 10.dp)
             .padding(start = 68.dp, end = 34.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -68,7 +62,7 @@ private fun InfoItem(
         ) {
             Text(
                 text = userId,
-                color = colors.white,
+                color = LETSSOPTTheme.colors.white,
                 style = LETSSOPTTheme.typography.button,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -76,7 +70,7 @@ private fun InfoItem(
 
             Text(
                 text = name,
-                color = colors.textSecondary,
+                color = LETSSOPTTheme.colors.textSecondary,
                 style = LETSSOPTTheme.typography.caption,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -85,7 +79,7 @@ private fun InfoItem(
 
         Text(
             text = part,
-            color = colors.white,
+            color = LETSSOPTTheme.colors.white,
             style = LETSSOPTTheme.typography.caption,
         )
     }
