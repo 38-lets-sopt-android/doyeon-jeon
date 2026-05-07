@@ -9,18 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.letssopt.R
-import com.example.letssopt.core.base.Async
-import com.example.letssopt.core.common.extension.toast
-import com.example.letssopt.core.common.util.HandleUiEffects
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.domain.model.UserModel
 import com.example.letssopt.presentation.profile.component.UserInfoList
@@ -30,26 +27,18 @@ fun ProfileListRoute(
     modifier: Modifier = Modifier,
     viewModel: ProfileListViewModel = viewModel(factory = ProfileListViewModelFactory()),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
+    val pagingData = viewModel.pagingData.collectAsLazyPagingItems()
 
-    HandleUiEffects(viewModel.uiEffect) { effect ->
-        when (effect) {
-            is ProfileListUiEffect.ShowToast -> context.toast(effect.message)
-        }
-    }
-
-    when (val usersInfo = uiState.userInfos) {
-        Async.Empty, Async.Init -> Unit
-        Async.Loading -> Box(
+    when (pagingData.loadState.refresh) {
+        is LoadState.Error -> Unit
+        LoadState.Loading ->Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
-
-        is Async.Success<List<UserModel>> -> ProfileListScreen(
-            usersInfo = usersInfo.data,
+        else -> ProfileListScreen(
+            padingData = pagingData,
             modifier = modifier,
         )
     }
@@ -57,7 +46,7 @@ fun ProfileListRoute(
 
 @Composable
 private fun ProfileListScreen(
-    usersInfo: List<UserModel>,
+    padingData: LazyPagingItems<UserModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -75,7 +64,7 @@ private fun ProfileListScreen(
         Spacer(Modifier.height(142.dp))
 
         UserInfoList(
-            usersInfo = usersInfo,
+            pagingData = padingData,
         )
     }
 }

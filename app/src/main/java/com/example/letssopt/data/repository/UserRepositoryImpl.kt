@@ -1,13 +1,18 @@
 package com.example.letssopt.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.letssopt.core.network.util.ApiResponseHandler
 import com.example.letssopt.data.local.datasource.AuthLocalDataSource
 import com.example.letssopt.data.mapper.toModel
+import com.example.letssopt.data.remote.datasource.UserPagingSource
 import com.example.letssopt.data.remote.service.UserService
 import com.example.letssopt.domain.exception.UserException
 import com.example.letssopt.domain.model.MyInfoModel
 import com.example.letssopt.domain.model.UserModel
 import com.example.letssopt.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
 
 class UserRepositoryImpl(
     private val apiResponseHandler: ApiResponseHandler,
@@ -22,10 +27,11 @@ class UserRepositoryImpl(
         }.map { it.toModel() }
     }
 
-    override suspend fun getUsers(): Result<List<UserModel>> =
-        apiResponseHandler.safeApiCall {
-            userService.getUserList()
-        }.map { it.toModel() }
+    override fun getUsers(): Flow<PagingData<UserModel>> =
+        Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { UserPagingSource(userService) }
+        ).flow
 
     private fun getMyId(): Result<Long?> = runCatching { authLocalDataSource.getUserId() }
 }

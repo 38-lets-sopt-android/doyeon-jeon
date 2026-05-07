@@ -1,31 +1,17 @@
 package com.example.letssopt.presentation.profile.list
 
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.R
-import com.example.letssopt.core.base.Async
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.letssopt.core.base.BaseViewModel
+import com.example.letssopt.domain.model.UserModel
 import com.example.letssopt.domain.repository.UserRepository
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 
 class ProfileListViewModel(
-    private val userRepository: UserRepository,
-) : BaseViewModel<ProfileListUiState, ProfileListUiEffect>(ProfileListUiState()) {
-    init {
-        getUsersInfo()
-    }
-
-    private fun getUsersInfo() {
-        viewModelScope.launch {
-            updateState { copy(userInfos = Async.Loading) }
-            userRepository.getUsers()
-                .onSuccess {
-                    updateState {
-                        copy(userInfos = if (it.isEmpty()) Async.Empty else Async.Success(it))
-                    }
-                }
-                .onFailure {
-                    sendEffect(ProfileListUiEffect.ShowToast(R.string.profilelist_msg_fail))
-                }
-        }
-    }
+    userRepository: UserRepository,
+) : BaseViewModel<ProfileListUiState, ProfileListUiEffect>(ProfileListUiState) {
+    val pagingData: Flow<PagingData<UserModel>> = userRepository
+        .getUsers()
+        .cachedIn(viewModelScope)
 }
