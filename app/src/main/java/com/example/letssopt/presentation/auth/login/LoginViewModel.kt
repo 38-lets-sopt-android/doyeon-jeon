@@ -37,7 +37,7 @@ class LoginViewModel(
                     sendEffect(LoginUiEffect.NavigateToMain)
                 }
                 .onFailure { error ->
-                    val message = if (error is AuthException.IdOrPasswordMismatch) {
+                    val message = if (error is AuthException.Login.IdOrPasswordMismatch) {
                         R.string.login_msg_fail_inputmismatch
                     } else R.string.login_msg_fail
                     sendEffect(LoginUiEffect.ShowToast(message))

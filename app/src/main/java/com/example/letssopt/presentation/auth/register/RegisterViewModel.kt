@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.letssopt.R
 import com.example.letssopt.core.base.BaseViewModel
 import com.example.letssopt.domain.exception.AuthException
+import com.example.letssopt.domain.exception.AuthException.Register.*
 import com.example.letssopt.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
 
@@ -87,16 +88,15 @@ class RegisterViewModel(
                     sendEffect(RegisterUiEffect.BackToLogin)
                 }
                 .onFailure {
-                    val message = if (it is AuthException) {
+                    val message = if (it is AuthException.Register) {
                         when (it) {
-                            is AuthException.IdDuplicated -> R.string.register_msg_fail_idduplicated
-                            is AuthException.AgeInvalid -> R.string.register_msg_fail_ageinvalid
-                            is AuthException.EmailInvalid -> R.string.register_msg_fail_emailinvalid
-                            is AuthException.IdInvalid -> R.string.register_msg_fail_idinvalid
-                            is AuthException.NameInvalid -> R.string.register_msg_fail_nameinvalid
-                            is AuthException.PartInvalid -> R.string.register_msg_fail_partinvalid
-                            is AuthException.PasswordInvalid -> R.string.register_msg_fail_passwordlength
-                            else -> R.string.register_msg_fail
+                            is AgeInvalid -> R.string.register_msg_fail_ageinvalid
+                            is EmailInvalid -> R.string.register_msg_fail_emailinvalid
+                            is IdDuplicated -> R.string.register_msg_fail_idduplicated
+                            is IdInvalid -> R.string.register_msg_fail_idinvalid
+                            is NameInvalid -> R.string.register_msg_fail_nameinvalid
+                            is PartInvalid -> R.string.register_msg_fail_partinvalid
+                            is PasswordInvalid -> R.string.register_msg_fail_passwordlength
                         }
                     } else R.string.register_msg_fail
                     sendEffect(RegisterUiEffect.ShowToast(message))

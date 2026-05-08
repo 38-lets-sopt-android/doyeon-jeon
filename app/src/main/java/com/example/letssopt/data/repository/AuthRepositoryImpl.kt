@@ -35,13 +35,13 @@ class AuthRepositoryImpl(
     }.recoverCatching {
         throw if (it is ApiError) {
             when (it.serverCode) {
-                "AUTH_409_001" -> AuthException.IdDuplicated()
-                "AUTH_400_002" -> AuthException.IdInvalid()
-                "AUTH_400_004" -> AuthException.PasswordInvalid()
-                "AUTH_400_006" -> AuthException.NameInvalid()
-                "AUTH_400_008" -> AuthException.EmailInvalid()
-                "AUTH_400_009", "AUTH_400_010" -> AuthException.AgeInvalid()
-                "AUTH_400_012" -> AuthException.PartInvalid()
+                "AUTH_409_001" -> AuthException.Register.IdDuplicated()
+                "AUTH_400_002" -> AuthException.Register.IdInvalid()
+                "AUTH_400_004" -> AuthException.Register.PasswordInvalid()
+                "AUTH_400_006" -> AuthException.Register.NameInvalid()
+                "AUTH_400_008" -> AuthException.Register.EmailInvalid()
+                "AUTH_400_009", "AUTH_400_010" -> AuthException.Register.AgeInvalid()
+                "AUTH_400_012" -> AuthException.Register.PartInvalid()
                 else -> it
             }
         } else it
@@ -60,7 +60,7 @@ class AuthRepositoryImpl(
     }
         .mapCatching { saveUserId(it.userId).getOrThrow() }
         .recoverCatching {
-            throw if (it is ApiError && it.serverCode == "AUTH_401_001") AuthException.IdOrPasswordMismatch()
+            throw if (it is ApiError && it.serverCode == "AUTH_401_001") AuthException.Login.IdOrPasswordMismatch()
             else it
         }
 
