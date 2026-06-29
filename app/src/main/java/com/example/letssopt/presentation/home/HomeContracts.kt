@@ -12,6 +12,8 @@ data class HomeUiState(
     val whatgorithmContents: List<ContentModel> = emptyList(),
     val upcomingContents: List<ContentModel> = emptyList(),
     val partyContents: List<WatchPartyModel> = emptyList(),
-): UiState
+) : UiState
 
-data object HomeUiEffect: UiEffect
+sealed interface HomeUiEffect : UiEffect {
+    data object NaviageToMyProfile : HomeUiEffect
+}

@@ -1,9 +1,9 @@
 package com.example.letssopt.domain.repository
 
 interface AuthRepository {
-    fun register(email: String, password: String): Result<Unit>
+    suspend fun register(loginId: String, email: String, password: String, name: String, age: Int, part: String): Result<Unit>
 
-    fun login(email: String, password: String): Result<Unit>
+    suspend fun login(loginId: String, password: String): Result<Unit>
 
     fun getIsLoggedIn(): Result<Boolean>
 }

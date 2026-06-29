@@ -1,10 +1,5 @@
 package com.example.letssopt.presentation.auth.register
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,7 +39,7 @@ import com.example.letssopt.presentation.auth.component.LogoText
 fun RegisterRoute(
     popBackStack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: RegisterViewModel = viewModel(),
+    viewModel: RegisterViewModel = viewModel(factory = RegisterViewModelFactory()),
 ) {
     val context = LocalContext.current
 
@@ -57,9 +52,13 @@ fun RegisterRoute(
     }
 
     RegisterScreen(
-        emailState = viewModel.emailState,
+        idState = viewModel.idState,
         passwordState = viewModel.passwordState,
         passwordConfirmState = viewModel.passwordConfirmState,
+        nameState = viewModel.nameState,
+        emailState = viewModel.emailState,
+        ageState = viewModel.ageState,
+        partState = viewModel.partState,
         registerEnabled = viewModel.registerEnabled,
         onRegisterClick = viewModel::onRegisterClick,
         modifier = modifier,
@@ -68,9 +67,13 @@ fun RegisterRoute(
 
 @Composable
 private fun RegisterScreen(
-    emailState: TextFieldState,
+    idState: TextFieldState,
     passwordState: TextFieldState,
     passwordConfirmState: TextFieldState,
+    nameState: TextFieldState,
+    emailState: TextFieldState,
+    ageState: TextFieldState,
+    partState: TextFieldState,
     registerEnabled: Boolean,
     onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -121,11 +124,11 @@ private fun RegisterScreen(
             Spacer(Modifier.height(36.dp))
 
             TextFieldDefault(
-                state = emailState,
-                placeholder = stringResource(R.string.placeholder_email),
-                label = stringResource(R.string.label_email),
+                state = idState,
+                placeholder = stringResource(R.string.placeholder_id),
+                label = stringResource(R.string.label_id),
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
+                    imeAction = ImeAction.Next,
                 ),
                 onKeyboardAction = {
                     focusManager.moveFocus(FocusDirection.Next)
@@ -155,7 +158,63 @@ private fun RegisterScreen(
                 label = stringResource(R.string.register_label_passwordconfirm),
                 isPassword = true,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
+                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Password
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
+
+            Spacer(Modifier.height(18.dp))
+
+            TextFieldDefault(
+                state = nameState,
+                placeholder = stringResource(R.string.register_placeholder_name),
+                label = stringResource(R.string.label_name),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
+
+            Spacer(Modifier.height(18.dp))
+
+            TextFieldDefault(
+                state = emailState,
+                placeholder = stringResource(R.string.register_placeholder_email),
+                label = stringResource(R.string.label_email),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
+
+            Spacer(Modifier.height(18.dp))
+
+            TextFieldDefault(
+                state = ageState,
+                placeholder = stringResource(R.string.register_placeholder_age),
+                label = stringResource(R.string.label_age),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next, keyboardType = KeyboardType.Number
+                ),
+                onKeyboardAction = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            )
+
+            Spacer(Modifier.height(18.dp))
+
+            TextFieldDefault(
+                state = partState,
+                placeholder = stringResource(R.string.register_placeholder_part),
+                label = stringResource(R.string.label_part),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
                 ),
                 onKeyboardAction = {
                     keyboardController?.hide()
@@ -171,11 +230,15 @@ private fun RegisterScreen(
 private fun RegisterScreenPreview() {
     LETSSOPTTheme {
         RegisterScreen(
-            emailState = rememberTextFieldState(),
+            idState = rememberTextFieldState(),
             passwordState = rememberTextFieldState(),
             passwordConfirmState = rememberTextFieldState(),
+            emailState = rememberTextFieldState(),
+            nameState = rememberTextFieldState(),
+            ageState = rememberTextFieldState(),
+            partState = rememberTextFieldState(),
             registerEnabled = true,
-            onRegisterClick = {}
+            onRegisterClick = {},
         )
     }
 }

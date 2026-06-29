@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
+
+val properties =
+    Properties().apply {
+        load(project.rootProject.file("local.properties").inputStream())
+    }
 
 android {
     namespace = "com.example.letssopt"
@@ -23,6 +30,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -40,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -56,6 +68,7 @@ dependencies {
     implementation(libs.coil.compose)
     // --- Navigation ---
     implementation(libs.androidx.compose.navigation)
+    // -- Serialization ---
     implementation(libs.kotlinx.serialization.json)
     // --- View Model ---
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -63,6 +76,14 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+    // --- Network ---
+    implementation(libs.retrofit.core)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+    // --- Paging ---
+    implementation(libs.paging.common)
+    implementation(libs.paging.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

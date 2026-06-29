@@ -43,7 +43,7 @@ fun LoginRoute(
     navigateToRegister: ()->Unit,
     navigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory()),
 ) {
     val context = LocalContext.current
 
@@ -58,7 +58,7 @@ fun LoginRoute(
     }
 
     LoginScreen(
-        emailState = viewModel.emailState,
+        emailState = viewModel.idState,
         passwordState = viewModel.passwordState,
         loginEnabled = viewModel.loginEnabled,
         onLoginClick = viewModel::onLoginClick,
@@ -126,8 +126,8 @@ private fun LoginScreen(
 
                 TextFieldDefault(
                     state = emailState,
-                    placeholder = stringResource(R.string.placeholder_email),
-                    label = stringResource(R.string.label_email),
+                    placeholder = stringResource(R.string.placeholder_id),
+                    label = stringResource(R.string.label_id),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.Email
